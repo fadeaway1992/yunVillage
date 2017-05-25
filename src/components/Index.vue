@@ -11,6 +11,9 @@ export default {
     return {
       msg: 'Welcome to Music Cloud'
     }
+  },
+  mounted() {
+
   }
 }
 </script>
