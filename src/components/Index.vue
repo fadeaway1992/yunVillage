@@ -5,6 +5,9 @@
 </template>
 
 <script>
+
+import requests from '@/api'
+
 export default {
   name: 'index',
   data () {
@@ -13,7 +16,8 @@ export default {
     }
   },
   mounted() {
-
+    // 测试登录请求。
+    //requests.loginByPhone({params:{'phone':'18866925263','password':'1992117'}},function(param){console.log(param)},function(param){console.log(param)})
   }
 }
 </script>
