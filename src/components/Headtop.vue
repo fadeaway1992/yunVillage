@@ -48,6 +48,8 @@
 </template>
 
 <script>
+
+
 export default {
   name:'Headtop',
 
@@ -163,15 +165,23 @@ export default {
         background-position: right -366px;
         &:hover{
           background-position: right -405px;
+          & .drop-down{
+            display: block;
+          }
         }
         .login-link{
           display: block;
           width: 28px;
           font-size: 12px;
           margin-top: 10px;
-          color: #787878;
+          color: #999;
+          &:hover {
+            text-decoration: underline;
+            color: #787878;
+          }
         }
         .drop-down{
+          display:none;
           position: absolute;
           top: 38px;
           right: -43px;
@@ -209,12 +219,19 @@ export default {
                   .icon-mail{
                     background-position: 0 -40px;
                   }
-                  span{
-
-                  }
                 }
               }
             }
+          }
+          .arr{
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            width: 16px;
+            height: 9px;
+            margin-left: -8px;
+            background: url(../assets/img/toplist.png) no-repeat;
+            background-position: -20px 0;
           }
         }
       }
