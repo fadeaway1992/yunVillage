@@ -161,6 +161,9 @@ export default {
         padding: 0 22px 0 0;
         background:url(../assets/img/topbar.png) no-repeat;
         background-position: right -366px;
+        &:hover{
+          background-position: right -405px;
+        }
         .login-link{
           display: block;
           width: 28px;
@@ -169,13 +172,42 @@ export default {
           color: #787878;
         }
         .drop-down{
-          display:none;
+          position: absolute;
+          top: 38px;
+          right: -43px;
+          width: 158px;
+          border: 1px solid #000;
+          border-radius: 4px;
           .inner{
+            border-radius: 3px;
+            border: 1px solid #404040;
+            background: #2a2a2a;
             .inner-ul{
               li{
                 a{
+                  display:block;
+                  width: 132px;
+                  height: 38px;
+                  overflow: hidden;
+                  padding-left: 24px;
+                  color: #ccc;
+                  line-height: 39px;
+                  &:hover {
+                    background: #353535;
+                    color: #fff;
+                  }
                   i{
-
+                    float: left;
+                    width: 18px;
+                    height: 18px;
+                    margin: 10px 10px 0 -7px;
+                    background: url(../assets/img/toplist.png) no-repeat;
+                  }
+                  .icon-mobile{
+                    background-position: 0 0;
+                  }
+                  .icon-mail{
+                    background-position: 0 -40px;
                   }
                   span{
 
