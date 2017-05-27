@@ -18,8 +18,8 @@
           <div class="drop-down">
             <div class="inner">
               <ul class="inner-ul">
-                <li><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
-                <li><a href="#"><i class="icon icon-mail"></i><span>网易邮箱账号登录</span></a></li>
+                <li @click="$emit('showByPhone')"><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
+                <li @click="$emit('showByMail')"><a href="#"><i class="icon icon-mail"></i><span>网易邮箱账号登录</span></a></li>
               </ul>
             </div>
             <i class="arr"></i>
@@ -52,6 +52,7 @@
 
 export default {
   name:'Headtop',
+  showLogin:false
 
 }
 </script>

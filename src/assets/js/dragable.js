@@ -1,18 +1,8 @@
-export default function Drag(thing){
+export default function Drag(dragBox,dragBar){
   let rectBody
-  let self = this
-  let down = false
   let distanceToLeftBorder,distanceToTopBorder
-  thing.addEventListener('mousedown',function(event){
-      let e = event || window.event
-      rectBody = thing.getBoundingClientRect()
-      distanceToLeftBorder = e.clientX - rectBody.left
-      distanceToTopBorder = e.clientY - rectBody.top
-      down = true
-  })
-  document.addEventListener('mousemove',function(event){
-    if(down===false) {return}
-    console.log(1234)
+
+  function move(event){
     let e = event || window.event
     let left = e.clientX - distanceToLeftBorder
     let top = e.clientY - distanceToTopBorder
@@ -28,10 +18,22 @@ export default function Drag(thing){
     } else if (top>maxTop){
       top = maxTop
     }
-    thing.style.left = left+'px'
-    thing.style.top = top+'px'
+    dragBox.style.left = left+'px'
+    dragBox.style.top = top+'px'
+    return false
+  }
+
+  dragBar.addEventListener('mousedown',function(event){
+    let e = event || window.event
+    rectBody = dragBox.getBoundingClientRect()
+    distanceToLeftBorder = e.clientX - rectBody.left
+    distanceToTopBorder = e.clientY - rectBody.top
+    document.addEventListener('mousemove',move)
+    dragBox.addEventListener('mouseup',function(){
+      document.removeEventListener('mousemove',move)
+    })
+    return false
   })
-  thing.addEventListener('mouseup',function(){
-    down = false
-  })
+
+
 }
