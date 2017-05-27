@@ -12,13 +12,11 @@ if (process.env.NODE_ENV == 'development'){
 
 export default{
   loginByPhone(options,cb,errorCb){
+    console.log(options,111)
     Vue.http.get(`${httpUrlHeader}login/cellphone`,options).then((response)=>{
       cb(response)
     },(error)=>{
       errorCb(error)
     })
   }
-
 }
-
-export { httpUrlHeader }

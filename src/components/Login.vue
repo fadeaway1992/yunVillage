@@ -9,14 +9,14 @@
       </div>
       <div class="main">
         <div class="form-pad">
-          <input type="text" class="account" :placeholder="barTxt.placeHolder">
-          <input type="password" class="password" placeholder="请输入密码">
+          <input type="text" class="account" :placeholder="barTxt.placeHolder" v-model="account">
+          <input type="password" class="password" placeholder="请输入密码" v-model="psw">
           <div class="err-info"></div>
           <div class="options">
             <label class="login-auto"><input type="checkbox" checked="checked" class="u-auto">自动登录</label>
             <a href="#" class="forget-password" data-action="forget">忘记密码？</a>
           </div>
-          <div class="login-btn">登录</div>
+          <div class="login-btn" @click="loginByPhone({params:{phone:account,password:psw}})">登录</div>
         </div>
       </div>
       <div class="footer">
@@ -29,10 +29,22 @@
 
 <script>
 import  Drag  from '@/assets/js/dragable.js'
+import { mapActions } from 'vuex'
 export default {
+  data(){
+    return {
+      account:'',
+      psw:''
+    }
+  },
   props:[
     'barTxt'
   ],
+  methods:{
+    ...mapActions([
+      'loginByPhone'
+    ])
+  },
   mounted(){
     this.$nextTick(function(){
       let dragBox = document.getElementsByClassName('login-box')[0]
