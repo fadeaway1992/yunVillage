@@ -1,8 +1,8 @@
 <template>
   <div class="index">
-    <Headtop @showByPhone="openLoginByPhone" @showByMail="openLoginByMail"></Headtop>
+    <Headtop @showByPhone="openLoginByPhone"></Headtop>
     <div style="padding-top:100px;">
-      {{response}}
+      {{userInfo}}
     </div>
     <Login v-show="showLogin" :barTxt="infoToLoginBar" @close="closeLoginPad"></Login>
   </div>
@@ -27,17 +27,13 @@ export default {
   },
   computed:{
     ...mapGetters([
-      'response'
+      'userInfo'
     ])
   },
   methods:{
     openLoginByPhone(){
       this.showLogin = true
       this.infoToLoginBar = {txt:'手机号登录',placeHolder:'请输入手机号'}
-    },
-    openLoginByMail(){
-      this.showLogin = true
-      this.infoToLoginBar = {txt:'网易邮箱账户登录',placeHolder:'请输入账号'}
     },
     closeLoginPad(){
       this.showLogin = false

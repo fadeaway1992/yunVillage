@@ -11,7 +11,7 @@
         <div class="form-pad">
           <input type="text" class="account" :placeholder="barTxt.placeHolder" v-model="account">
           <input type="password" class="password" placeholder="请输入密码" v-model="psw">
-          <div class="err-info"></div>
+          <div class="err-info" v-show="showLoginInfo">{{loginInfo}}</div>
           <div class="options">
             <label class="login-auto"><input type="checkbox" checked="checked" class="u-auto">自动登录</label>
             <a href="#" class="forget-password" data-action="forget">忘记密码？</a>
@@ -34,7 +34,21 @@ export default {
   data(){
     return {
       account:'',
-      psw:''
+      psw:'',
+      showLoginInfo:false
+    }
+  },
+  computed:{
+    ...mapGetters([
+      'loginInfo'
+    ])
+  },
+  watch:{
+    loginInfo:function(value,oldValue){
+      console.log(value)
+      if(value==('网络出现问题'||'账户信息有误')){
+        this.showLoginInfo = true
+      }
     }
   },
   props:[

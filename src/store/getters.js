@@ -1,1 +1,2 @@
-export const response = state => state.login.response
+export const userInfo = state => state.login.userInfo
+export const loginInfo = state => state.login.loginInfo
