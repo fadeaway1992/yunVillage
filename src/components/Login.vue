@@ -29,7 +29,7 @@
 
 <script>
 import  Drag  from '@/assets/js/dragable.js'
-import { mapActions } from 'vuex'
+import { mapActions,mapGetters } from 'vuex'
 export default {
   data(){
     return {
@@ -60,6 +60,8 @@ export default {
 <style lang="scss" scoped>
 .hidden-pad{
   position:absolute;
+  left:0;
+  top:0;
   width:100vw;
   height:100vh;
   background:transparent;

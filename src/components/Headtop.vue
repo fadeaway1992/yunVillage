@@ -19,7 +19,10 @@
             <div class="inner">
               <ul class="inner-ul">
                 <li @click="$emit('showByPhone')"><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
-                <li @click="$emit('showByMail')"><a href="#"><i class="icon icon-mail"></i><span>网易邮箱账号登录</span></a></li>
+                <li><a href="#" class="disable"><i class="icon icon-wx"></i><span>微信登录</span></a></li>
+                <li><a href="#" class="disable"><i class="icon icon-qq"></i><span>QQ登录</span></a></li>
+                <li><a href="#" class="disable"><i class="icon icon-wb"></i><span>新浪微博登录</span></a></li>
+                <li><a href="#" class="disable"><i class="icon icon-mail"></i><span>网易邮箱账号登录</span></a></li>
               </ul>
             </div>
             <i class="arr"></i>
@@ -217,8 +220,25 @@ export default {
                   .icon-mobile{
                     background-position: 0 0;
                   }
+                  .icon-wx{
+                    background-position: -20px -20px;
+                  }
+                  .icon-qq{
+                    background-position: -20px -40px;
+                  }
+                  .icon-wb{
+                    background-position: 0 -20px;
+                  }
                   .icon-mail{
                     background-position: 0 -40px;
+                  }
+                }
+                .disable{
+                  color:rgba(255,255,255,0.5);
+                  background:rgba(255,255,255,0.2);
+                  &:hover{
+                    color:rgba(255,255,255,0.5);
+                    background:rgba(255,255,255,0.2);
                   }
                 }
               }

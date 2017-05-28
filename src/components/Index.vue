@@ -1,6 +1,9 @@
 <template>
   <div class="index">
     <Headtop @showByPhone="openLoginByPhone" @showByMail="openLoginByMail"></Headtop>
+    <div style="padding-top:100px;">
+      {{response}}
+    </div>
     <Login v-show="showLogin" :barTxt="infoToLoginBar" @close="closeLoginPad"></Login>
   </div>
 </template>
@@ -9,7 +12,7 @@
 
 import Headtop from './Headtop'
 import Login from './Login'
-
+import { mapActions,mapGetters } from 'vuex'
 export default {
   name: 'index',
   components:{
@@ -21,6 +24,11 @@ export default {
       showLogin: false,
       infoToLoginBar:''
     }
+  },
+  computed:{
+    ...mapGetters([
+      'response'
+    ])
   },
   methods:{
     openLoginByPhone(){
@@ -42,5 +50,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.index{
+  position:relative;
+}
 </style>
