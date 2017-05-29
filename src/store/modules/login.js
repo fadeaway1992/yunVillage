@@ -7,7 +7,6 @@ const state = {
 
 const mutations = {
   [types.GET_USER](state,res){
-    console.log(res.status,res.body.code)
     if(res.status!=200){
       state.loginInfo = '网络出现问题'
     } else if (res.body.code!==200){

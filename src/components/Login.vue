@@ -9,14 +9,14 @@
       </div>
       <div class="main">
         <div class="form-pad">
-          <input type="text" class="account" :placeholder="barTxt.placeHolder" v-model="account">
-          <input type="password" class="password" placeholder="请输入密码" v-model="psw">
-          <div class="err-info" v-show="showLoginInfo">{{loginInfo}}</div>
+          <input type="text" class="account" :placeholder="barTxt.placeHolder" @focus="clearLoginInfo" v-model="account">
+          <input type="password" class="password" placeholder="请输入密码" @focus="clearLoginInfo" @keyup.enter="loginByPhone(loginParams)" v-model="psw">
+          <div class="err-info" v-show="loginInfo=='账户信息有误'||'网络出现问题'">{{loginInfo}}</div>
           <div class="options">
             <label class="login-auto"><input type="checkbox" checked="checked" class="u-auto">自动登录</label>
             <a href="#" class="forget-password" data-action="forget">忘记密码？</a>
           </div>
-          <div class="login-btn" @click="loginByPhone({params:{phone:account,password:psw}})">登录</div>
+          <div class="login-btn" @click="loginByPhone(loginParams)">登录</div>
         </div>
       </div>
       <div class="footer">
@@ -35,29 +35,35 @@ export default {
     return {
       account:'',
       psw:'',
-      showLoginInfo:false
+      // showLoginInfo:false
     }
   },
   computed:{
     ...mapGetters([
       'loginInfo'
-    ])
-  },
-  watch:{
-    loginInfo:function(value,oldValue){
-      console.log(value)
-      if(value==('网络出现问题'||'账户信息有误')){
-        this.showLoginInfo = true
-      }
+    ]),
+    loginParams(){
+      return {params:{phone:this.account,password:this.psw}}
     }
   },
+  // watch:{
+  //   loginInfo:function(value,oldValue){
+  //     console.log(value)
+  //     if(value==('网络出现问题'||'账户信息有误')){
+  //       this.showLoginInfo = true
+  //     }
+  //   }
+  // },
   props:[
     'barTxt'
   ],
   methods:{
     ...mapActions([
       'loginByPhone'
-    ])
+    ]),
+    clearLoginInfo(){
+      this.$store.state.login.loginInfo=''
+    }
   },
   mounted(){
     this.$nextTick(function(){
@@ -138,6 +144,9 @@ export default {
       .password{
         @extend .account;
         margin-top: 10px;
+      }
+      .err-info{
+        color:red;
       }
       .options{
         margin-top: 10px;
