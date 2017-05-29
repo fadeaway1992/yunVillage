@@ -18,7 +18,7 @@
           <div class="drop-down">
             <div class="inner">
               <ul class="inner-ul">
-                <li @click="$emit('showByPhone')"><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
+                <li @click="$store.state.login.showLoginPad = true"><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
                 <li><a href="#" class="disable"><i class="icon icon-wx"></i><span>微信登录</span></a></li>
                 <li><a href="#" class="disable"><i class="icon icon-qq"></i><span>QQ登录</span></a></li>
                 <li><a href="#" class="disable"><i class="icon icon-wb"></i><span>新浪微博登录</span></a></li>
@@ -54,8 +54,7 @@
 
 
 export default {
-  name:'Headtop',
-  showLogin:false
+  name:'Headtop'
 
 }
 </script>

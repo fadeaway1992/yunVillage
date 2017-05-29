@@ -2,14 +2,12 @@
   <div class="hidden-pad">
     <div class="login-box">
       <div id="drag-bar">
-        <div class="bar-txt">
-          {{barTxt.txt}}
-        </div>
-        <span class="close-btn" @click="$emit('close')"></span>
+        <div class="bar-txt">手机号登录</div>
+        <span class="close-btn" @click="$store.state.login.showLoginPad = false"></span>
       </div>
       <div class="main">
         <div class="form-pad">
-          <input type="text" class="account" :placeholder="barTxt.placeHolder" @focus="clearLoginInfo" v-model="account">
+          <input type="text" class="account" placeholder="请输入手机号" @focus="clearLoginInfo" v-model="account">
           <input type="password" class="password" placeholder="请输入密码" @focus="clearLoginInfo" @keyup.enter="loginByPhone(loginParams)" v-model="psw">
           <div class="err-info" v-show="loginInfo=='账户信息有误'||'网络出现问题'">{{loginInfo}}</div>
           <div class="options">
@@ -54,9 +52,9 @@ export default {
   //     }
   //   }
   // },
-  props:[
-    'barTxt'
-  ],
+  // props:[
+  //   'barTxt'
+  // ],
   methods:{
     ...mapActions([
       'loginByPhone'

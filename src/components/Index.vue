@@ -1,10 +1,10 @@
 <template>
   <div class="index">
-    <Headtop @showByPhone="openLoginByPhone"></Headtop>
+    <Headtop></Headtop>
     <div style="padding-top:100px;">
       {{userInfo}}
     </div>
-    <Login v-show="showLogin" :barTxt="infoToLoginBar" @close="closeLoginPad"></Login>
+    <Login v-show="showLoginPad"></Login>
   </div>
 </template>
 
@@ -21,23 +21,17 @@ export default {
   },
   data () {
     return {
-      showLogin: false,
-      infoToLoginBar:''
+      
     }
   },
   computed:{
     ...mapGetters([
-      'userInfo'
+      'userInfo',
+      'showLoginPad'
     ])
   },
   methods:{
-    openLoginByPhone(){
-      this.showLogin = true
-      this.infoToLoginBar = {txt:'手机号登录',placeHolder:'请输入手机号'}
-    },
-    closeLoginPad(){
-      this.showLogin = false
-    }
+
   },
   mounted() {
 

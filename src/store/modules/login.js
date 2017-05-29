@@ -2,7 +2,8 @@ import * as types from '../mutation-types'
 import api from '@/api'
 const state = {
   userInfo:{},
-  loginInfo:''
+  loginInfo:'',
+  showLoginPad:false
 }
 
 const mutations = {
@@ -12,6 +13,7 @@ const mutations = {
     } else if (res.body.code!==200){
       state.loginInfo = '账户信息有误'
     } else{
+      state.showLoginPad = false
       state.userInfo = res
     }
   }
