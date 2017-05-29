@@ -14,10 +14,22 @@
           <li class="last"><router-link to="/5"><span>下载客户端</span><sub class="caret"></sub></router-link><sub class="hot"></sub></li>
         </ul>
         <div class="head-dropdown">
-          <a class="login-link" href="#">登录</a>
+          <div class="avatar" v-if="userInfo.body">
+            <img :src="userInfo.body.profile.avatarUrl" width="30" height="30" v-if="userInfo.body.profile.avatarUrl">
+            <span class="mask"></span>
+          </div>
+          <a class="login-link" href="#" v-else>登录</a>
           <div class="drop-down">
             <div class="inner">
-              <ul class="inner-ul">
+              <ul class="inner-ul" v-if="userInfo.body">
+                <li><a href="#"><i class="icon-logged icon-home"></i><span>我的主页</span></a></li>
+                <li><a href="#"><i class="icon-logged icon-level"></i><span>我的等级</span></a></li>
+                <li><a href="#"><i class="icon-logged icon-vip"></i><span>会员中心</span></a></li>
+                <li><a href="#"><i class="icon-logged icon-options"></i><span>个人设置</span></a></li>
+                <li><a href="#"><i class="icon-logged icon-import"></i><span>导入歌单</span></a></li>
+                <li><a href="#"><i class="icon-logged icon-logout"></i><span>退出</span></a></li>
+              </ul>
+              <ul class="inner-ul" v-else>
                 <li @click="$store.state.login.showLoginPad = true"><a href="#"><i class="icon icon-mobile"></i><span>手机号登录</span></a></li>
                 <li><a href="#" class="disable"><i class="icon icon-wx"></i><span>微信登录</span></a></li>
                 <li><a href="#" class="disable"><i class="icon icon-qq"></i><span>QQ登录</span></a></li>
@@ -28,6 +40,9 @@
             <i class="arr"></i>
           </div>
         </div>
+        <a href="javascript:;" class="msg" v-if="userInfo.body">
+          <i class="bubble"><b class="msg-num">21</b></i>
+        </a>
         <div class="search-box">
           <div class="parent">
             <input type="text" class="search-txt" placeholder="单曲/歌手/专辑/歌单/MV/用户">
@@ -51,10 +66,15 @@
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name:'Headtop'
+  name:'Headtop',
+  computed:{
+    ...mapGetters([
+      'userInfo'
+    ])
+  }
 
 }
 </script>
@@ -172,6 +192,21 @@ export default {
             display: block;
           }
         }
+        .avatar{
+          position:relative;
+          width: 30px;
+          height: 30px;
+          cursor:pointer;
+          .mask{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 31px;
+            background:url(../assets/img/topbar.png) no-repeat;
+            background-position: 0 -390px;
+          }
+        }
         .login-link{
           display: block;
           width: 28px;
@@ -216,6 +251,27 @@ export default {
                     margin: 10px 10px 0 -7px;
                     background: url(../assets/img/toplist.png) no-repeat;
                   }
+                  .icon-logged{
+                    margin: 7px 10px 0 0;
+                  }
+                  .icon-home{
+                    background-position: 0 -80px;
+                  }
+                  .con-level{
+                    background-position: 0 -100px;
+                  }
+                  .icon-vip{
+                    background-position: 0 -221px;
+                  }
+                  .icon-options{
+                    background-position: 0 -140px;
+                  }
+                  .icon-import{
+                    background-position: 0 -180px;
+                  }
+                  .icon-logout{
+                    background-position: 0 -200px;
+                  }
                   .icon-mobile{
                     background-position: 0 0;
                   }
@@ -252,6 +308,35 @@ export default {
             margin-left: -8px;
             background: url(../assets/img/toplist.png) no-repeat;
             background-position: -20px 0;
+          }
+        }
+      }
+      .msg{
+        position: relative;
+        float: right;
+        width: 34px;
+        height: 28px;
+        margin: 17px 0 0 20px;
+        background:url(../assets/img/topbar.png) no-repeat;
+        background-position: 0 -49px;
+        .bubble{
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 29px;
+          height: 22px;
+          color: #fff;
+          text-align: center;
+          line-height: 22px;
+          font-weight: bold;
+          b{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 22px;
+            width:29px;
+            font-style:normal;
+            background:url(../assets/img/bub2.png) no-repeat;
           }
         }
       }

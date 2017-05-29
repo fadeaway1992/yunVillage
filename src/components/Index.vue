@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <Headtop></Headtop>
-    <div style="padding-top:100px;">
+    <div style="padding-top:120px;">
       {{userInfo}}
     </div>
     <Login v-show="showLoginPad"></Login>
@@ -21,7 +21,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   },
   computed:{
