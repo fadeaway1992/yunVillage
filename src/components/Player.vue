@@ -6,13 +6,11 @@
       </div>
       <div class="right"></div>
     </div>
-    <div class="bg">
-      <div class="play-btn" @click="play"></div>
-    </div>
+    <div class="bg"></div>
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" title="播放／暂停"></a>
+        <a href="javascript:;" class="play-or-pause pausing" title="播放／暂停" @click="play"></a>
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
@@ -31,7 +29,7 @@
               <span class="btn"><i></i></span>
             </div>
           </div>
-          <span class="time"><em>03:51</em> / 04:07</span>
+          <span class="time"><em>{{currentTime}}</em> / {{duration}}</span>
         </div>
       </div>
       <div class="operations">
@@ -58,12 +56,49 @@
 
 <script>
   import {AudioPlayer} from '@/assets/js/AudioPlayer.js'
-  AudioPlayer.init()
   export default {
+    data(){
+      return {
+        currentTime:'00:00',
+        duration:'',
+        playedLength:'',
+      }
+    },
+    computed:{
+
+    },
     methods:{
       play(){
         AudioPlayer.player.paused?AudioPlayer.player.play():AudioPlayer.player.pause()
+        this.getCurrentTime()
+      },
+      getPlayedLength(){
+
+      },
+      getCurrentTime(){
+        let self = this
+        let count = setInterval(function(){
+          self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
+        },1000)
+      },
+      getDuration(){
+        this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
       }
+    },
+    watch:{
+      currentTime:function(val){
+        return
+      }
+    },
+    created(){
+      let self = this
+      AudioPlayer.init()
+      AudioPlayer.player.addEventListener('canplay',function(){
+        self.getDuration()
+      })
+    },
+    mounted(){
+
     }
   }
 </script>
