@@ -4,9 +4,8 @@
     <div style="padding-top:120px;">
       {{userInfo}}
     </div>
-    <!-- <audio :src="src" controls="controls"></audio> -->
-    <Login v-show="showLoginPad"></Login>
     <Player></Player>
+    <Login v-show="showLoginPad"></Login>
   </div>
 </template>
 
@@ -16,7 +15,6 @@ import Headtop from './Headtop'
 import Login from './Login'
 import Player from './Player'
 import { mapActions,mapGetters } from 'vuex'
-// let src = require('../assets/img/weifengtangtang.mp3')
 export default {
   name: 'index',
   components:{
@@ -26,7 +24,7 @@ export default {
   },
   data () {
     return {
-      
+
     }
   },
   computed:{
