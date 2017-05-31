@@ -1,6 +1,6 @@
+let src = require('../img/weifengtangtang.mp3')
 let AudioPlayer={
-  // 默认，「威风堂堂」--洛天依
-  src:'@/assets/img/weifengtangtang.mp3',
+  src:src,
   player:''
 }
 
