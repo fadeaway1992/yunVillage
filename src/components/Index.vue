@@ -5,6 +5,7 @@
       {{userInfo}}
     </div>
     <Login v-show="showLoginPad"></Login>
+    <Player></Player>
   </div>
 </template>
 
@@ -12,12 +13,14 @@
 
 import Headtop from './Headtop'
 import Login from './Login'
+import Player from './Player'
 import { mapActions,mapGetters } from 'vuex'
 export default {
   name: 'index',
   components:{
     Headtop,
-    Login
+    Login,
+    Player
   },
   data () {
     return {
@@ -42,5 +45,6 @@ export default {
 <style lang="scss">
 .index{
   position:relative;
+  width:100%;
 }
 </style>
