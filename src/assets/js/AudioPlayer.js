@@ -1,7 +1,8 @@
 let src = require('../img/weifengtangtang.mp3')
 let AudioPlayer={
   src:src,
-  player:''
+  player:'',
+  buffered:''
 }
 
 AudioPlayer.init = function(){
@@ -11,7 +12,6 @@ AudioPlayer.init = function(){
 }
 
 AudioPlayer.getTime = function(second){
-  console.log(second)
   let curSec = Math.floor(second)  //秒数取整
   let curMin = Math.floor(curSec/60)  // 分钟取整
   //取分钟
@@ -30,6 +30,14 @@ AudioPlayer.getTime = function(second){
   }
 
   return Min+':'+Sec
+}
+
+AudioPlayer.getBuffered = function(){
+  let self = this
+  let buffer = setInterval(function(){
+    console.log(self.player.buffered.end(0))
+    self.buffered =  self.player.buffered.end(0)
+  },5000)
 }
 
 export {AudioPlayer}

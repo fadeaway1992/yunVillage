@@ -10,7 +10,7 @@
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" title="播放／暂停" @click="play"></a>
+        <a href="javascript:;" class="play-or-pause pausing" title="播放／暂停" @click="play($event)"></a>
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
@@ -24,8 +24,8 @@
         </div>
         <div class="process-bar">
           <div class="bar-bg">
-            <div class="ready" style="width:80%"></div>
-            <div class="current" style="width:53%">
+            <div class="ready" :style="{width:buffered}"></div>
+            <div class="current" :style="{width:playedLength}">
               <span class="btn"><i></i></span>
             </div>
           </div>
@@ -61,19 +61,18 @@
       return {
         currentTime:'00:00',
         duration:'',
-        playedLength:'',
+        playedLength:'0px',
+        buffered:'0px'
       }
     },
     computed:{
 
     },
     methods:{
-      play(){
+      play(event){
         AudioPlayer.player.paused?AudioPlayer.player.play():AudioPlayer.player.pause()
         this.getCurrentTime()
-      },
-      getPlayedLength(){
-
+        event.target.classList.toggle('playing')
       },
       getCurrentTime(){
         let self = this
@@ -83,16 +82,24 @@
       },
       getDuration(){
         this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
+      },
+      getBuffered(){
+        let self = this
+        AudioPlayer.getBuffered()  //  每隔五秒获取一次缓冲时间
+        let buffer = setInterval(function(){
+          self.buffered = 493/AudioPlayer.player.duration*AudioPlayer.buffered+'px'
+        },5000)
       }
     },
     watch:{
       currentTime:function(val){
-        return
-      }
+        this.playedLength = (493/AudioPlayer.player.duration*AudioPlayer.player.currentTime)+'px'
+      },
     },
     created(){
       let self = this
       AudioPlayer.init()
+      this.getBuffered()
       AudioPlayer.player.addEventListener('canplay',function(){
         self.getDuration()
       })
