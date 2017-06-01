@@ -35,7 +35,6 @@ AudioPlayer.getTime = function(second){
 AudioPlayer.getBuffered = function(){
   let self = this
   let buffer = setInterval(function(){
-    console.log(self.player.buffered.end(0))
     self.buffered =  self.player.buffered.end(0)
   },5000)
 }

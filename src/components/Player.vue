@@ -10,8 +10,8 @@
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" title="播放／暂停" @click="play($event)"></a>
-        <a href="javascript:;" class="next" title="下一首"></a>
+        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="play($event)"></a>
+        <a href="javascript:;" class="next" title="下一首" @click="stop"></a>
       </div>
       <div class="cover">
         <img src="http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34" width="34" height="34">
@@ -26,7 +26,7 @@
           <div class="bar-bg">
             <div class="ready" :style="{width:buffered}"></div>
             <div class="current" :style="{width:playedLength}">
-              <span class="btn"><i></i></span>
+              <span class="btn" id="drag_control_point"><i></i></span>
             </div>
           </div>
           <span class="time"><em>{{currentTime}}</em> / {{duration}}</span>
@@ -56,13 +56,16 @@
 
 <script>
   import {AudioPlayer} from '@/assets/js/AudioPlayer.js'
+  import playBarControl from '@/assets/js/play_bar_control.js'
   export default {
     data(){
       return {
         currentTime:'00:00',
         duration:'',
         playedLength:'0px',
-        buffered:'0px'
+        buffered:'0px',
+        playCount:'',
+        bufferCount:''
       }
     },
     computed:{
@@ -74,10 +77,22 @@
         this.getCurrentTime()
         event.target.classList.toggle('playing')
       },
+      end(){
+        AudioPlayer.player.currentTime = 0
+        document.getElementById('play_btn').classList.remove('playing')
+        clearInterval(this.playCount)
+        this.currentTime='00:00'
+      },
+      stop(){
+        AudioPlayer.player.currentTime = 120
+      },
       getCurrentTime(){
         let self = this
-        let count = setInterval(function(){
+        this.playCount = setInterval(function(){
           self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
+          if(AudioPlayer.player.currentTime==AudioPlayer.player.duration){
+            self.end()
+          }
         },1000)
       },
       getDuration(){
@@ -89,10 +104,13 @@
         let buffer = setInterval(function(){
           self.buffered = 493/AudioPlayer.player.duration*AudioPlayer.buffered+'px'
         },5000)
-      }
+      },
     },
     watch:{
       currentTime:function(val){
+        if(window.controlPointDown==1){
+          return
+        }
         this.playedLength = (493/AudioPlayer.player.duration*AudioPlayer.player.currentTime)+'px'
       },
     },
@@ -102,6 +120,12 @@
       this.getBuffered()
       AudioPlayer.player.addEventListener('canplay',function(){
         self.getDuration()
+      })
+      this.$nextTick(function(){
+        // 添加播放拖拽功能
+        let controlPoint = document.getElementById('drag_control_point')
+        let progressBar = controlPoint.parentNode
+        playBarControl(controlPoint,progressBar,AudioPlayer.player)
       })
     },
     mounted(){
@@ -296,6 +320,7 @@
                 width: 22px;
                 height: 24px;
                 margin-left: -11px;
+                cursor:pointer;
                 background:url(../assets/img/iconall.png) no-repeat;
                 background-position: 0 -250px;
                 &:hover{
