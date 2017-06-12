@@ -1,5 +1,5 @@
-let src = require('../img/weifengtangtang.mp3')
-let AudioPlayer={
+let src = require('../../../static/weifengtangtang.mp3')
+let AudioPlayer = {
   src:src,
   player:'',
   buffered:''
