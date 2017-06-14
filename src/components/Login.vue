@@ -26,40 +26,37 @@
 </template>
 
 <script>
-import  Drag  from '@/assets/js/dragable.js'
-import { mapActions,mapGetters } from 'vuex'
+import Drag from '@/assets/js/dragable.js'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data(){
+  data () {
     return {
-      account:'',
-      psw:'',
-      // showLoginInfo:false
+      account: '',
+      psw: ''
     }
   },
-  computed:{
+  computed: {
     ...mapGetters([
       'loginInfo'
     ]),
-    loginParams(){
-      return {params:{phone:18866925263,password:1992117}}
+    loginParams () {
+      return { params: { phone: 18866925263, password: 1992117 }}
     }
   },
-  methods:{
+  methods: {
     ...mapActions([
       'loginByPhone'
     ]),
-    clearLoginInfo(){
-      this.$store.state.login.loginInfo=''
+    clearLoginInfo () {
+      this.$store.state.login.loginInfo = ''
     }
   },
-  mounted(){
-    this.$nextTick(function(){
-      let dragBox = document.getElementsByClassName('login-box')[0]
-      let dragBar = document.getElementById('drag-bar')
-      Drag(dragBox,dragBar)
+  mounted () {
+    this.$nextTick(function () {
+      const dragBox = document.getElementsByClassName('login-box')[0]
+      const dragBar = document.getElementById('drag-bar')
+      Drag(dragBox, dragBar)
     })
-
-
   }
 }
 </script>

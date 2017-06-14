@@ -89,6 +89,7 @@
       getCurrentTime () {
         const self = this
         this.playCount = setInterval(function () {
+          if (window.controlPointDown === 1) return
           self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
           if (AudioPlayer.player.currentTime === AudioPlayer.player.duration) {
             self.end()

@@ -14,10 +14,10 @@
 import Headtop from './Headtop'
 import Login from './Login'
 import Player from './Player'
-import { mapActions,mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'index',
-  components:{
+  components: {
     Headtop,
     Login,
     Player
@@ -27,25 +27,25 @@ export default {
 
     }
   },
-  computed:{
+  computed: {
     ...mapGetters([
       'userInfo',
       'showLoginPad',
       'playList'
     ])
   },
-  methods:{
+  methods: {
     ...mapActions([
       'getUserPlayList'
     ])
   },
   watch: {
-    userInfo: function(value) {
+    userInfo: function (value) {
       this.getUserPlayList(value.data.account.id)
     }
   },
-  mounted() {
-    
+  mounted () {
+
   }
 }
 </script>
