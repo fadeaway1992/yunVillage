@@ -11,7 +11,7 @@
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
         <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="play($event)"></a>
-        <a href="javascript:;" class="next" title="下一首" @click="stop"></a>
+        <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
         <img src="http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34" width="34" height="34">
@@ -55,80 +55,82 @@
 </template>
 
 <script>
-  import {AudioPlayer} from '@/assets/js/AudioPlayer.js'
+  import { AudioPlayer } from '@/assets/js/AudioPlayer.js'
   import playBarControl from '@/assets/js/play_bar_control.js'
   export default {
-    data(){
+    data () {
       return {
-        currentTime:'00:00',
-        duration:'',
-        playedLength:'0px',
-        buffered:'0px',
-        playCount:'',
-        bufferCount:''
+        currentTime: '00:00',
+        duration: '',
+        playedLength: '0px',
+        buffered: '0px',
+        playCount: '',
+        bufferCount: ''
       }
     },
-    computed:{
+    computed: {
 
     },
-    methods:{
-      play(event){
-        AudioPlayer.player.paused?AudioPlayer.player.play():AudioPlayer.player.pause()
+    methods: {
+      // 点击播放按钮时触发  "播放／暂停"
+      play (event) {
+        AudioPlayer.player.paused ? AudioPlayer.player.play() : AudioPlayer.player.pause()
         this.getCurrentTime()
         event.target.classList.toggle('playing')
       },
-      end(){
+      // 定义当一首歌播放接受后的行为
+      end () {
         AudioPlayer.player.currentTime = 0
         document.getElementById('play_btn').classList.remove('playing')
         clearInterval(this.playCount)
-        this.currentTime='00:00'
+        this.currentTime = '00:00'
       },
-      stop(){
-        AudioPlayer.player.currentTime = 120
-      },
-      getCurrentTime(){
-        let self = this
-        this.playCount = setInterval(function(){
+      // 每隔一秒渲染当前播放时间
+      getCurrentTime () {
+        const self = this
+        this.playCount = setInterval(function () {
           self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
-          if(AudioPlayer.player.currentTime==AudioPlayer.player.duration){
+          if (AudioPlayer.player.currentTime === AudioPlayer.player.duration) {
             self.end()
           }
-        },1000)
+        }, 1000)
       },
-      getDuration(){
+      // 获取当前音频的时长并格式化
+      getDuration () {
         this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
       },
-      getBuffered(){
-        let self = this
-        AudioPlayer.getBuffered()  //  每隔五秒获取一次缓冲时间
-        let buffer = setInterval(function(){
-          self.buffered = 493/AudioPlayer.player.duration*AudioPlayer.buffered+'px'
-        },5000)
-      },
+      // 每隔五秒获取一次缓冲时间
+      getBuffered () {
+        const self = this
+        const buffer = setInterval(function () {
+          AudioPlayer.buffered = AudioPlayer.player.buffered.end(0)
+          self.buffered = 493 / AudioPlayer.player.duration * AudioPlayer.buffered + 'px'
+        }, 5000)
+      }
     },
-    watch:{
-      currentTime:function(val){
-        if(window.controlPointDown==1){
+    watch: {
+      currentTime: function (val) {
+        if (window.controlPointDown === 1) {
           return
         }
-        this.playedLength = (493/AudioPlayer.player.duration*AudioPlayer.player.currentTime)+'px'
-      },
+        this.playedLength = (493 / AudioPlayer.player.duration * AudioPlayer.player.currentTime) + 'px'
+      }
     },
-    created(){
-      let self = this
+    created () {
+      const self = this
       AudioPlayer.init()
       this.getBuffered()
-      AudioPlayer.player.addEventListener('canplay',function(){
+      AudioPlayer.player.addEventListener('canplay', function () {
         self.getDuration()
       })
-      this.$nextTick(function(){
+      this.$nextTick(function () {
         // 添加播放拖拽功能
-        let controlPoint = document.getElementById('drag_control_point')
-        let progressBar = controlPoint.parentNode
-        playBarControl(controlPoint,progressBar,AudioPlayer.player)
+        const controlPoint = document.getElementById('drag_control_point')
+        const progressBar = controlPoint.parentNode
+        playBarControl(controlPoint, progressBar, AudioPlayer.player)
       })
     },
-    mounted(){
+    mounted () {
 
     }
   }

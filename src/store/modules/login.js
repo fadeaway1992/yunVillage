@@ -8,9 +8,8 @@ const state = {
 }
 
 const mutations = {
-  [types.GET_USER] (state, res){
-    console.log(res)
-    if (res.status != 200){
+  [types.GET_USER] (state, res) {
+    if (res.status !== 200) {
       state.loginInfo = '网络出现问题'
     } else if (res.data.code !== 200) {
       state.loginInfo = '账户信息有误'
@@ -19,7 +18,7 @@ const mutations = {
       state.userInfo = res
     }
   },
-  [types.GET_USER_PLAYLIST] (state,playlist){
+  [types.GET_USER_PLAYLIST] (state, playlist) {
     state.playlist = playlist
   }
 }
@@ -32,8 +31,7 @@ const actions = {
     })
   },
   getUserPlayList: ({ commit }, id) => {
-    api.getPlayList(id)
-      .then( playlist => {
+    api.getPlayList(id).then(playlist => {
       commit(types.GET_USER_PLAYLIST, playlist)
     })
   }

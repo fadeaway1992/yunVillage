@@ -4,8 +4,8 @@ Vue.use(Vuex)
 
 import login from './modules/login.js'
 import * as getters from './getters.js'
- const store = new Vuex.Store({
-  modules:{
+const store = new Vuex.Store({
+  modules: {
     login
   },
   getters

@@ -7,11 +7,10 @@ import store from './store'
 // 引入全局 CSS 文件
 import '@/assets/css/global.scss'
 
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-let vm = new Vue({
+const vm = new Vue({
   el: '#app',
   router,
   store,
@@ -19,4 +18,4 @@ let vm = new Vue({
   components: { App }
 })
 
-export {vm}
+export { vm }
