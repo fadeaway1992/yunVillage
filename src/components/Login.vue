@@ -41,20 +41,9 @@ export default {
       'loginInfo'
     ]),
     loginParams(){
-      return {params:{phone:this.account,password:this.psw}}
+      return {params:{phone:18866925263,password:1992117}}
     }
   },
-  // watch:{
-  //   loginInfo:function(value,oldValue){
-  //     console.log(value)
-  //     if(value==('网络出现问题'||'账户信息有误')){
-  //       this.showLoginInfo = true
-  //     }
-  //   }
-  // },
-  // props:[
-  //   'barTxt'
-  // ],
   methods:{
     ...mapActions([
       'loginByPhone'
@@ -194,5 +183,5 @@ export default {
     }
   }
 }
-
 </style>
+

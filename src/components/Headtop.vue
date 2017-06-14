@@ -14,14 +14,14 @@
           <li class="last"><router-link to="/5"><span>下载客户端</span><sub class="caret"></sub></router-link><sub class="hot"></sub></li>
         </ul>
         <div class="head-dropdown">
-          <div class="avatar" v-if="userInfo.body">
-            <img :src="userInfo.body.profile.avatarUrl" width="30" height="30" v-if="userInfo.body.profile.avatarUrl">
+          <div class="avatar" v-if="userInfo.data">
+            <img :src="userInfo.data.profile.avatarUrl" width="30" height="30" v-if="userInfo.data.profile.avatarUrl">
             <span class="mask"></span>
           </div>
           <a class="login-link" href="#" v-else>登录</a>
           <div class="drop-down">
             <div class="inner">
-              <ul class="inner-ul" v-if="userInfo.body">
+              <ul class="inner-ul" v-if="userInfo.data">
                 <li><a href="#"><i class="icon-logged icon-home"></i><span>我的主页</span></a></li>
                 <li><a href="#"><i class="icon-logged icon-level"></i><span>我的等级</span></a></li>
                 <li><a href="#"><i class="icon-logged icon-vip"></i><span>会员中心</span></a></li>
@@ -40,7 +40,7 @@
             <i class="arr"></i>
           </div>
         </div>
-        <a href="javascript:;" class="msg" v-if="userInfo.body">
+        <a href="javascript:;" class="msg" v-if="userInfo.data">
           <i class="bubble"><b class="msg-num">21</b></i>
         </a>
         <div class="search-box">

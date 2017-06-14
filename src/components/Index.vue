@@ -2,7 +2,7 @@
   <div class="index">
     <Headtop></Headtop>
     <div style="padding-top:120px;">
-      {{userInfo}}
+      <div v-for="item in playList">{{item.name}}</div>
     </div>
     <Player></Player>
     <Login v-show="showLoginPad"></Login>
@@ -30,14 +30,22 @@ export default {
   computed:{
     ...mapGetters([
       'userInfo',
-      'showLoginPad'
+      'showLoginPad',
+      'playList'
     ])
   },
   methods:{
-
+    ...mapActions([
+      'getUserPlayList'
+    ])
+  },
+  watch: {
+    userInfo: function(value) {
+      this.getUserPlayList(value.data.account.id)
+    }
   },
   mounted() {
-
+    
   }
 }
 </script>
