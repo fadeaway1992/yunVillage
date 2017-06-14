@@ -3,25 +3,25 @@ import axios from 'axios'
 // 设置请求地址头部
 var ycaxios = axios.create({
   baseURL: 'http://localhost:3000/',
-});
+})
 
 var httpUrlHeader
-if (process.env.NODE_ENV == 'development'){
+if (process.env.NODE_ENV === 'development'){
   httpUrlHeader = 'http://localhost:3000/'
 } else {
   console.log("It's not development environment!")
 }
 
 export default{
-  loginByPhone(options,cb,errorCb){
+  loginByPhone (options, cb, errorCb) {
     Vue.http.get(`${httpUrlHeader}login/cellphone`,options).then((response)=>{
       cb(response)
-    },(error)=>{
+    }, (error)=>{
       errorCb(error)
     })
   },
   // 使用手机登录
-  loginByAxios(options,cb,errorCb){
+  loginByAxios(options, cb, errorCb){
     ycaxios.get('login/cellphone',options).then((response) => {
       console.log(response)
       cb(response)
