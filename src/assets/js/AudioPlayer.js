@@ -2,7 +2,8 @@ const src = require('../../../static/weifengtangtang.mp3')
 const AudioPlayer = {
   src: src,
   player: '',
-  buffered: ''
+  buffered: '',
+  playList: [{ name: '灌篮高手', src: 'guanlangaoshou.mp3', artist: '某某' }, { name: '海阔天空', src: 'haikuotiankong.mp3', artist: 'Beyond' }]
 }
 // 创建音频元素并添加音频地址
 AudioPlayer.init = function () {
@@ -28,6 +29,11 @@ AudioPlayer.getTime = function (second) {
   }
 
   return Min + ':' + Sec
+}
+
+// 播放整个列表
+AudioPlayer.playInList = function () {
+  return
 }
 
 export { AudioPlayer }

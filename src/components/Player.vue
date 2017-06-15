@@ -10,7 +10,7 @@
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="play($event)"></a>
+        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="playOrPause($event)"></a>
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
@@ -57,6 +57,7 @@
 <script>
   import { AudioPlayer } from '@/assets/js/AudioPlayer.js'
   import playBarControl from '@/assets/js/play_bar_control.js'
+  import { mapActions, mapMutations, mapGetters } from 'vuex'
   export default {
     data () {
       return {
@@ -69,71 +70,79 @@
       }
     },
     computed: {
-
+      ...mapGetters([
+        'player'
+      ])
     },
     methods: {
+      ...mapActions([
+        'play'
+      ]),
+      ...mapMutations([
+        'pause'
+      ]),
       // 点击播放按钮时触发  "播放／暂停"
-      play (event) {
-        AudioPlayer.player.paused ? AudioPlayer.player.play() : AudioPlayer.player.pause()
-        this.getCurrentTime()
+      playOrPause (event) {
+        this.player.paused ? this.play() : this.pause()
+        // this.getCurrentTime() 这个要写在 store 中
         event.target.classList.toggle('playing')
       },
       // 定义当一首歌播放接受后的行为
-      end () {
-        AudioPlayer.player.currentTime = 0
-        document.getElementById('play_btn').classList.remove('playing')
-        clearInterval(this.playCount)
-        this.currentTime = '00:00'
-      },
-      // 每隔一秒渲染当前播放时间
-      getCurrentTime () {
-        const self = this
-        this.playCount = setInterval(function () {
-          if (window.controlPointDown === 1) return
-          self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
-          if (AudioPlayer.player.currentTime === AudioPlayer.player.duration) {
-            self.end()
-          }
-        }, 1000)
-      },
-      // 获取当前音频的时长并格式化
-      getDuration () {
-        this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
-      },
-      // 每隔五秒获取一次缓冲时间
-      getBuffered () {
-        const self = this
-        const buffer = setInterval(function () {
-          AudioPlayer.buffered = AudioPlayer.player.buffered.end(0)
-          self.buffered = 493 / AudioPlayer.player.duration * AudioPlayer.buffered + 'px'
-        }, 5000)
-      }
+    //   end () {
+    //     AudioPlayer.player.currentTime = 0
+    //     document.getElementById('play_btn').classList.remove('playing')
+    //     clearInterval(this.playCount)
+    //     this.currentTime = '00:00'
+    //   },
+    //   // 每隔一秒渲染当前播放时间
+    //   getCurrentTime () {
+    //     const self = this
+    //     this.playCount = setInterval(function () {
+    //       if (window.controlPointDown === 1) return
+    //       self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
+    //       if (AudioPlayer.player.currentTime === AudioPlayer.player.duration) {
+    //         self.end()
+    //       }
+    //     }, 1000)
+    //   },
+    //   // 获取当前音频的时长并格式化
+    //   getDuration () {
+    //     this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
+    //   },
+    //   // 每隔五秒获取一次缓冲时间
+    //   getBuffered () {
+    //     const self = this
+    //     const buffer = setInterval(function () {
+    //       AudioPlayer.buffered = AudioPlayer.player.buffered.end(0)
+    //       self.buffered = 493 / AudioPlayer.player.duration * AudioPlayer.buffered + 'px'
+    //     }, 5000)
+    //   }
     },
-    watch: {
-      currentTime: function (val) {
-        if (window.controlPointDown === 1) {
-          return
-        }
-        this.playedLength = (493 / AudioPlayer.player.duration * AudioPlayer.player.currentTime) + 'px'
-      }
-    },
-    created () {
-      const self = this
-      AudioPlayer.init()
-      this.getBuffered()
-      AudioPlayer.player.addEventListener('canplay', function () {
-        self.getDuration()
-      })
-      this.$nextTick(function () {
-        // 添加播放拖拽功能
-        const controlPoint = document.getElementById('drag_control_point')
-        const progressBar = controlPoint.parentNode
-        playBarControl(controlPoint, progressBar, AudioPlayer.player)
-      })
-    },
-    mounted () {
+    // watch: {
+    //   currentTime: function (val) {
+    //     if (window.controlPointDown === 1) {
+    //       return
+    //     }
+    //     this.playedLength = (493 / AudioPlayer.player.duration * AudioPlayer.player.currentTime) + 'px'
+    //   }
+    // },
+    // created () {
+    //   const self = this
+    //   AudioPlayer.init()
+    //   this.getBuffered()
+    //   AudioPlayer.player.addEventListener('canplay', function () {
+    //     self.getDuration()
+    //   })
+    //   this.$nextTick(function () {
+    //     // 添加播放拖拽功能
+    //     const controlPoint = document.getElementById('drag_control_point')
+    //     const progressBar = controlPoint.parentNode
+    //     playBarControl(controlPoint, progressBar, AudioPlayer.player)
+    //   })
+    // },
+    // mounted () {
 
-    }
+    // }
   }
 </script>
 

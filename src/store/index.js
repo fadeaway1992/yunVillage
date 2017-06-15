@@ -4,11 +4,13 @@ Vue.use(Vuex)
 
 import login from './modules/login.js'
 import playList from './modules/playList.js'
+import audioPlayer from './modules/audioPlayer.js'
 import * as getters from './getters.js'
 const store = new Vuex.Store({
   modules: {
     login,
-    playList
+    playList,
+    audioPlayer
   },
   getters
 })
