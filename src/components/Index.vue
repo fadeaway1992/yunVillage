@@ -1,9 +1,10 @@
 <template>
   <div class="index">
     <Headtop></Headtop>
-    <div style="padding-top:120px;">
+    <PlayList></PlayList>
+    <!--<div style="padding-top:120px;">
       <div v-for="item in playList">{{item.name}}</div>
-    </div>
+    </div>-->
     <Player></Player>
     <Login v-show="showLoginPad"></Login>
   </div>
@@ -14,13 +15,15 @@
 import Headtop from './Headtop'
 import Login from './Login'
 import Player from './Player'
+import PlayList from './PlayList'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'index',
   components: {
     Headtop,
     Login,
-    Player
+    Player,
+    PlayList
   },
   data () {
     return {
@@ -30,8 +33,7 @@ export default {
   computed: {
     ...mapGetters([
       'userInfo',
-      'showLoginPad',
-      'playList'
+      'showLoginPad'
     ])
   },
   methods: {

@@ -24,3 +24,9 @@ input:focus{
     width:1100px;
   }
 }
+
+.text-overflow{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

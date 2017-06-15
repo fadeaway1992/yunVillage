@@ -51,6 +51,9 @@ export default {
       this.$store.state.login.loginInfo = ''
     }
   },
+  created () {
+    this.loginByPhone(this.loginParams)
+  },
   mounted () {
     this.$nextTick(function () {
       const dragBox = document.getElementsByClassName('login-box')[0]

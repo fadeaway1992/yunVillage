@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
+import PlayListDetail from '@/components/PlayListDetail'
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -10,31 +12,17 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index,
+      component: Index
     },
     {
-      path:'/0',
-      component:Index
-    },
-    {
-      path:'/1',
-      component:Index
-    },
-    {
-      path:'/2',
-      component:Index
-    },
-    {
-      path:'/3',
-      component:Index
-    },
-    {
-      path:'/4',
-      component:Index
-    },
-    {
-      path:'/5',
-      component:Index
+      path: '/playlist/:id',
+      name: 'playListDetail',
+      component: PlayListDetail,
+      beforeEnter: (to, from, next) => {
+        store.dispatch('getListDetail', to.params.id)
+        // 这里需要判断返回值code，改歌单是否存在。
+        next()
+      }
     }
   ]
 })

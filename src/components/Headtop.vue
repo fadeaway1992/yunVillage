@@ -6,12 +6,12 @@
           <a href="/#">网易云音乐</a>
         </h1>
         <ul class="nav">
-          <li class="first"><router-link to="/0"><span>发现音乐</span><sub class="caret"></sub></router-link></li>
-          <li><router-link to="/1"><span>我的音乐</span><sub class="caret"></sub></router-link></li>
-          <li><router-link to="/2"><span>朋友</span><sub class="caret"></sub></router-link></li>
-          <li><router-link to="/3"><span>商城</span><sub class="caret"></sub></router-link></li>
-          <li><router-link to="/4"><span>音乐人</span><sub class="caret"></sub></router-link></li>
-          <li class="last"><router-link to="/5"><span>下载客户端</span><sub class="caret"></sub></router-link><sub class="hot"></sub></li>
+          <li class="first"><router-link to="/"><span>发现音乐</span><sub class="caret"></sub></router-link></li>
+          <li><router-link to="#"><span>我的音乐</span><sub class="caret"></sub></router-link></li>
+          <li><router-link to="#"><span>朋友</span><sub class="caret"></sub></router-link></li>
+          <li><router-link to="#"><span>商城</span><sub class="caret"></sub></router-link></li>
+          <li><router-link to="#"><span>音乐人</span><sub class="caret"></sub></router-link></li>
+          <li class="last"><router-link to="#"><span>下载客户端</span><sub class="caret"></sub></router-link><sub class="hot"></sub></li>
         </ul>
         <div class="head-dropdown">
           <div class="avatar" v-if="userInfo.data">
@@ -163,7 +163,7 @@ export default {
         }
 
         .router-link-active{
-          background-position: left -155px;
+          // background-position: left -155px;
           .caret{
             display:block;
           }

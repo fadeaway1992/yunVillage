@@ -14,11 +14,16 @@ export default{
   // 获取用户歌单
   getPlayList (id) {
     return ycaxios.get('user/playlist?uid=' + id).then(res => {
-      console.log(res.data.playlist, '-------playList')
       return res.data.playlist
     })
     .catch(e => {
       return e
+    })
+  },
+  // 获取歌单详情
+  getListDetail (id) {
+    return ycaxios.get('playlist/detail?id=' + id).then(res => {
+      return res
     })
   }
 }
