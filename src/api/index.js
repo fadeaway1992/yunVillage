@@ -25,5 +25,11 @@ export default{
     return ycaxios.get('playlist/detail?id=' + id).then(res => {
       return res
     })
+  },
+  // 获取歌曲 url
+  getMusicUrl (id) {
+    return ycaxios.get('music/url?id=' + id).then(res => {
+      return { url: res.data.data[0].url, type: res.data.data[0].type }
+    })
   }
 }

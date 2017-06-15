@@ -4,7 +4,7 @@ const state = {
   userInfo: '',
   loginInfo: '',
   showLoginPad: false,
-  playlist: []
+  musicList: []
 }
 
 const mutations = {
@@ -18,8 +18,8 @@ const mutations = {
       state.userInfo = res
     }
   },
-  [types.GET_USER_PLAYLIST] (state, playlist) {
-    state.playlist = playlist
+  [types.GET_USER_PLAYLIST] (state, musicList) {
+    state.musicList = musicList
   }
 }
 
@@ -31,8 +31,8 @@ const actions = {
     })
   },
   getUserPlayList: ({ commit }, id) => {
-    api.getPlayList(id).then(playlist => {
-      commit(types.GET_USER_PLAYLIST, playlist)
+    api.getPlayList(id).then(musicList => {
+      commit(types.GET_USER_PLAYLIST, musicList)
     })
   }
 }

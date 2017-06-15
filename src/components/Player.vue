@@ -14,13 +14,13 @@
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
-        <img src="http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34" width="34" height="34">
+        <img :src="currentMusic.cover" width="34" height="34">
         <a href="javacript:;" hidefocus="true" class="mask"></a>
       </div>
       <div class="playing-bar">
         <div class="words">
-          <a hidefocus="true text-flow" href="javascript:;" class="song-title" title="威风堂堂">威风堂堂</a>
-          <a class="song-by text-flow" href="javascript:;">洛天依</a>
+          <a hidefocus="true text-flow" href="javascript:;" class="song-title" :title="currentMusic.name">{{currentMusic.name}}</a>
+          <a class="song-by text-flow" href="javascript:;">{{currentMusic.artist}}</a>
         </div>
         <div class="process-bar">
           <div class="bar-bg">
@@ -71,7 +71,8 @@
     },
     computed: {
       ...mapGetters([
-        'player'
+        'player',
+        'currentMusic'
       ])
     },
     methods: {
@@ -140,9 +141,9 @@
     //     playBarControl(controlPoint, progressBar, AudioPlayer.player)
     //   })
     // },
-    // mounted () {
-
-    // }
+    mounted () {
+      console.log(this.currentMusic, '------currentMusic')
+    }
   }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="play-list">
-    <div v-for="item in playList" class="play-list-item" @click="selectList(item.id)">
+    <div v-for="item in musicList" class="play-list-item" @click="selectList(item.id)">
       <div class="cover"><img :src="item.coverImgUrl" :alt="item.name"></div>
       <div class="list-name">{{item.name}}</div>
     </div>
@@ -12,7 +12,7 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters([
-      'playList'
+      'musicList'
     ])
   },
   methods: {
