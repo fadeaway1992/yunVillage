@@ -8,7 +8,6 @@ const state = {
 
 const mutations = {
   [types.GET_LIST_DETAIL] (state, listDetail) {
-    console.log(listDetail.data)
     state.listDetail = listDetail.data.playlist
     state.listName = listDetail.data.playlist.name
     state.list = listDetail.data.playlist.tracks

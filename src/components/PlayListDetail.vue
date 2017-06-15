@@ -18,8 +18,7 @@ export default {
     ...mapGetters([
       'listDetail',
       'listName',
-      'list',
-      // 'playList'
+      'list'
     ])
   },
   components: {
@@ -30,13 +29,11 @@ export default {
     ...mapActions([
       'getMusicUrl',
       'addItemToPlayList',
-      'play',
+      'playOrPause',
       'changePlayIndex'
     ]),
     addToPlayListAndPlayIt: async function (item) {
-      console.log(item, '----看看有没有封面')
       const music = await this.getMusicUrl(item.id)
-      // console.log(music,'-----music received')
       if (music.type != 'mp3') {
         console.log('the music is not a mp3 file')
       } else {
@@ -47,10 +44,8 @@ export default {
         }
         const obj = {name:item.name, src: music.url, artist: artist, cover: item.al.picUrl}
         this.addItemToPlayList(obj)
-        console.log(obj,'-----obj',this.$store.state.audioPlayer.playList,'----playList')
         this.changePlayIndex('last')
-        console.log(this.$store.state.audioPlayer.playingIndex, '-----playingIndex')
-        this.play()
+        this.playOrPause()
       }
     }
   },

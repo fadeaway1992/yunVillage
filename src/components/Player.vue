@@ -10,7 +10,7 @@
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="playOrPause($event)"></a>
+        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="play($event)"></a>
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
@@ -77,17 +77,13 @@
     },
     methods: {
       ...mapActions([
-        'play'
-      ]),
-      ...mapMutations([
-        'pause'
+        'playOrPause'
       ]),
       // 点击播放按钮时触发  "播放／暂停"
-      playOrPause (event) {
-        this.player.paused ? this.play() : this.pause()
+      play (event) {
+        this.playOrPause()
         // this.getCurrentTime() 这个要写在 store 中
-        event.target.classList.toggle('playing')
-      },
+      }
       // 定义当一首歌播放接受后的行为
     //   end () {
     //     AudioPlayer.player.currentTime = 0
