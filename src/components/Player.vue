@@ -26,7 +26,7 @@
           <div class="bar-bg">
             <div class="ready" :style="{width:bufferedLength}"></div>
             <div class="current" :style="{width:playedLength}">
-              <span class="btn" id="drag_control_point"><i></i></span>
+              <span class="btn" id="drag_control_point"><i id="loading"></i></span>
             </div>
           </div>
           <span class="time"><em>{{secCounter}}</em> / {{currentMusic.duration}}</span>
@@ -309,6 +309,9 @@
                   width: 12px;
                   height: 12px;
                   background:url(../assets/img/loading.gif) no-repeat;
+                }
+                .loading{
+                  visibility: visible;
                 }
               }
             }

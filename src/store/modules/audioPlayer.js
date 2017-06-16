@@ -42,6 +42,7 @@ const actions = {
         console.log('我继续播放')
         state.player.play()
       } else {
+        dispatch('checkout', 'new')
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
@@ -54,6 +55,7 @@ const actions = {
         playBtn.classList.remove('playing')
         console.log('我暂停了')
       } else {
+        dispatch('checkout', 'new')
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
@@ -63,10 +65,20 @@ const actions = {
   },
 
   // 定义一首歌播放结束后的动作
-  checkout ({ state }) {
-    state.player.currentTime = 0
-    clearInterval(window.counter)
-    clearInterval(window.bufferCount)
+  checkout ({ state }, type) {
+    switch (type) {
+    case 'over':
+      state.playedLength = '0px'
+      clearInterval(window.counter)
+      clearInterval(window.bufferCount)
+      const playBtn = document.getElementById('play_btn')
+      playBtn.classList.remove('playing')
+      break
+    case 'new':
+      state.playedLength = '0px'
+      clearInterval(window.counter)
+      clearInterval(window.bufferCount)
+    }
   },
 
   // 获取歌曲 url
@@ -108,7 +120,7 @@ const actions = {
     window.counter = setInterval(() => {
       state.secCounter = formatTime(state.player.currentTime)
       if (state.player.currentTime === state.player.duration) {
-        dispatch('checkout')
+        dispatch('checkout', 'over')
       }
     }, 1000)
   },
@@ -153,12 +165,18 @@ const actions = {
       console.log('oncanplay, 可以开始播放了')
       dispatch('getBufferedPerSec')
       dispatch('getCurrentTimePerSec')
+      document.getElementById('loading').classList.remove('loading')
     }
     state.player.oncanplaythrough = () => {
       console.log('oncanplaythrough, 可以无缓冲播放')
     }
     state.player.onwaiting = () => {
       console.log('onwaiting, 正在缓冲')
+      document.getElementById('loading').classList.add('loading')
+    }
+    state.player.onplaying = () => {
+      console.log('onplaying, 缓冲结束，开始播放')
+      document.getElementById('loading').classList.remove('loading')
     }
   }
 }

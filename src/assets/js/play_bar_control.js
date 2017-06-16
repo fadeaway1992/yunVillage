@@ -1,6 +1,8 @@
 export default function playBarControl (controlPoint, processBar, player) {
   let leftDis
   const processBarFullLength = 493
+  
+  // 定义鼠标移动时的行为
   function Move (event) {
     const e = event || window.event
     e.preventDefault()
@@ -13,18 +15,25 @@ export default function playBarControl (controlPoint, processBar, player) {
     processBar.style.width = newWidth + 'px'
   }
 
+  // 定义鼠标松开时的行为
+  function clearAllEventsAndJump () {
+    document.removeEventListener('mouseup', clearAllEventsAndJump)
+    document.removeEventListener('mousemove', Move)
+    const current = player.duration / processBarFullLength * processBar.offsetWidth
+    player.currentTime = current
+    window.controlPointDown = 0
+  }
+
+
+
   controlPoint.addEventListener('mousedown', function (event) {
+    console.log('------------------------i am clicked !!!-------------------')
     const e = event || window.event
     event.stopPropagation()
     window.controlPointDown = 1
     // 获取点击位置相对于进度条右边的位置
     leftDis = e.offsetX + controlPoint.offsetLeft - processBar.offsetWidth
     document.addEventListener('mousemove', Move)
-    document.addEventListener('mouseup', function () {
-      document.removeEventListener('mousemove', Move)
-      const current = player.duration / processBarFullLength * processBar.offsetWidth
-      player.currentTime = current
-      window.controlPointDown = 0
-    })
+    document.addEventListener('mouseup', clearAllEventsAndJump)
   })
 }
