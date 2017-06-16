@@ -10,7 +10,7 @@
     <div class="wrap">
       <div class="ctrl-btns">
         <a href="javascript:;" class="prev" title="上一首"></a>
-        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="play($event)"></a>
+        <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="playOrPause"></a>
         <a href="javascript:;" class="next" title="下一首"></a>
       </div>
       <div class="cover">
@@ -55,9 +55,7 @@
 </template>
 
 <script>
-  import { formatTime } from '@/assets/js/AudioPlayer.js'
-  import playBarControl from '@/assets/js/play_bar_control.js'
-  import { mapActions, mapMutations, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     data () {
       return {
@@ -80,21 +78,15 @@
     },
     methods: {
       ...mapActions([
+        // 点击播放按钮时触发  "播放／暂停"
         'playOrPause',
+        // 获取进度条当前长度
         'getPlayedLength',
-        'addPlayHooks'
-      ]),
-      // 点击播放按钮时触发  "播放／暂停"
-      play (event) {
-        this.playOrPause()
-      }
-      // 定义当一首歌播放结束后的行为
-    //   end () {
-    //     AudioPlayer.player.currentTime = 0
-    //     document.getElementById('play_btn').classList.remove('playing')
-    //     clearInterval(this.playCount)
-    //     this.currentTime = '00:00'
-    //   },
+        // 添加钩子函数
+        'addPlayHooks',
+        // 激活进度拖拽
+        'activateDragPoint'
+      ])
     },
     watch: {
       secCounter: function (val) {
@@ -106,12 +98,10 @@
     },
     created () {
       this.addPlayHooks()
-    //   this.$nextTick(function () {
-    //     // 添加播放拖拽功能
-    //     const controlPoint = document.getElementById('drag_control_point')
-    //     const progressBar = controlPoint.parentNode
-    //     playBarControl(controlPoint, progressBar, AudioPlayer.player)
-    //   })
+      this.$nextTick(function () {
+        // 添加播放拖拽功能
+        this.activateDragPoint()
+      })
     },
     mounted () {
 

@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import api from '@/api'
 import { formatTime } from '@/assets/js/AudioPlayer.js'
+import playBarControl from '@/assets/js/play_bar_control.js'
 const processBarLength = 493
 // 初始化播放器
 const player = document.createElement('audio')
@@ -32,6 +33,7 @@ const mutations = {
 }
 
 const actions = {
+
   // 播放／暂停
   playOrPause ({ state, getters, dispatch }) {
     const playBtn = document.getElementById('play_btn')
@@ -59,19 +61,24 @@ const actions = {
       }
     }
   },
+
+  // 定义一首歌播放结束后的动作
   checkout ({ state }) {
     state.player.currentTime = 0
     clearInterval(window.counter)
     clearInterval(window.bufferCount)
   },
+
   // 获取歌曲 url
   getMusicUrl ({ commit }, id) {
     return api.getMusicUrl(id)
   },
+
   // 将歌曲添加至播放列表
   addItemToPlayList ({ state }, item) {
     state.playList.push(item)
   },
+
   // 切换播放列表中当前音乐的指向，可以指向下一首，上一首，第一首，最后一首，或者直接指定数字 0 --- length-1。
   changePlayIndex ({ state }, index) {
     switch (index) {
@@ -95,6 +102,7 @@ const actions = {
       }
     }
   },
+
   // 每隔一秒获取当前播放时间。
   getCurrentTimePerSec ({ state, dispatch }) {
     window.counter = setInterval(() => {
@@ -104,16 +112,27 @@ const actions = {
       }
     }, 1000)
   },
+
   // 每隔一秒获取缓冲长度
   getBufferedPerSec ({ state }) {
     window.bufferCount = setInterval(() => {
       state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(0) + 'px'
     }, 1000)
   },
+
   // 获取当前播放条长度
   getPlayedLength ({ state }) {
     state.playedLength = (processBarLength / state.player.duration * state.player.currentTime) + 'px'
   },
+
+  // 激活进度条拖拽效果
+  activateDragPoint ({ state }) {
+    const controlPoint = document.getElementById('drag_control_point')
+    const progressBar = controlPoint.parentNode
+    playBarControl(controlPoint, progressBar, state.player)
+  },
+
+  // 添加钩子函数
   addPlayHooks ({ state, dispatch }) {
     state.player.onloadstart = () => {
       console.log('loadstart, 音频开始加载')
