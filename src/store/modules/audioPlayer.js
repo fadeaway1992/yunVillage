@@ -11,11 +11,11 @@ const state = {
   // 保存播放器当前缓冲时间
   buffered: '',
   // 保存当前播放列表
-  playList: [{ name: '威风堂堂', src: 'http://localhost:8080/static/img/weifengtangtang.c12d39c.mp3', artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34' }],
+  playList: [{ name: '威风堂堂', src: 'http://localhost:8080/static/img/weifengtangtang.c12d39c.mp3', artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34', duration: '03:20' }],
   // 保存当前播放歌曲在播放列表中的位置
   playingIndex: 0,
   // 计秒器，保存当前播放的时间
-  secCounter: ''
+  secCounter: '00:00'
 }
 
 const getters = {

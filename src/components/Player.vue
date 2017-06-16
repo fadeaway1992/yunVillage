@@ -85,27 +85,12 @@
       play (event) {
         this.playOrPause()
       }
-      // 定义当一首歌播放接受后的行为
+      // 定义当一首歌播放结束后的行为
     //   end () {
     //     AudioPlayer.player.currentTime = 0
     //     document.getElementById('play_btn').classList.remove('playing')
     //     clearInterval(this.playCount)
     //     this.currentTime = '00:00'
-    //   },
-    //   // 每隔一秒渲染当前播放时间
-    //   getCurrentTime () {
-    //     const self = this
-    //     this.playCount = setInterval(function () {
-    //       if (window.controlPointDown === 1) return
-    //       self.currentTime = AudioPlayer.getTime(AudioPlayer.player.currentTime)
-    //       if (AudioPlayer.player.currentTime === AudioPlayer.player.duration) {
-    //         self.end()
-    //       }
-    //     }, 1000)
-    //   },
-    //   // 获取当前音频的时长并格式化
-    //   getDuration () {
-    //     this.duration = AudioPlayer.getTime(AudioPlayer.player.duration)
     //   },
     //   // 每隔五秒获取一次缓冲时间
     //   getBuffered () {
@@ -116,14 +101,14 @@
     //     }, 5000)
     //   }
     },
-    // watch: {
-    //   currentTime: function (val) {
-    //     if (window.controlPointDown === 1) {
-    //       return
-    //     }
-    //     this.playedLength = (493 / AudioPlayer.player.duration * AudioPlayer.player.currentTime) + 'px'
-    //   }
-    // },
+    watch: {
+      secCounter: function (val) {
+        if (window.controlPointDown === 1) {
+          return
+        }
+        this.playedLength = (493 / this.player.duration * this.player.currentTime) + 'px'
+      }
+    },
     // created () {
     //   const self = this
     //   AudioPlayer.init()

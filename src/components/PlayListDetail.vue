@@ -47,7 +47,7 @@ export default {
           artist = artist + '/' + item.ar[i].name
           i++
         }
-        const obj = {name:item.name, id: item.id, src: music.url, artist: artist, cover: item.al.picUrl, duration:formatTime(item.dt/1000)}
+        const obj = {name:item.name, id: item.id, src: music.url, artist: artist, cover: item.al.picUrl, duration: formatTime(item.dt/1000)}
         this.addItemToPlayList(obj)
         this.changePlayIndex('last')
         this.playOrPause()
