@@ -63,7 +63,6 @@
       return {
         currentTime: '00:00',
         duration: '',
-        playedLength: '0px',
         buffered: '0px',
         playCount: '',
         bufferCount: ''
@@ -74,12 +73,15 @@
         'player',
         'currentMusic',
         'playList',
-        'secCounter'
+        'secCounter',
+        'playedLength'
       ])
     },
     methods: {
       ...mapActions([
-        'playOrPause'
+        'playOrPause',
+        'getPlayedLength',
+        'addPlayHooks'
       ]),
       // 点击播放按钮时触发  "播放／暂停"
       play (event) {
@@ -106,13 +108,12 @@
         if (window.controlPointDown === 1) {
           return
         }
-        this.playedLength = (493 / this.player.duration * this.player.currentTime) + 'px'
+        this.getPlayedLength()
       }
     },
-    // created () {
-    //   const self = this
-    //   AudioPlayer.init()
-    //   this.getBuffered()
+    created () {
+      this.addPlayHooks()
+    //   // this.getBuffered()
     //   AudioPlayer.player.addEventListener('canplay', function () {
     //     self.getDuration()
     //   })
@@ -122,7 +123,7 @@
     //     const progressBar = controlPoint.parentNode
     //     playBarControl(controlPoint, progressBar, AudioPlayer.player)
     //   })
-    // },
+    },
     mounted () {
 
     }

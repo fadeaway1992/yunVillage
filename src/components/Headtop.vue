@@ -82,8 +82,7 @@ export default {
 <style lang="scss" scoped>
 .g-bar{
   width:100%;
-  position:absolute;
-  left:0;top:0;
+  position: relative;
   .bar-top{
     width:100%;
     background:url(../assets/img/topbar.png) repeat-x 0 -80px;

@@ -1,11 +1,9 @@
 <template>
   <div>
-    <Headtop style="display: none;"></Headtop>
     <div>{{listName}}</div>
     <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
       {{item.name}}      {{formattedTime(item.dt)}}
     </div>
-    <Player></Player>
   </div>
 </template>
 

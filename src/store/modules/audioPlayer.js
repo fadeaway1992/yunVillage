@@ -1,6 +1,7 @@
 import * as types from '../mutation-types'
 import api from '@/api'
 import { formatTime } from '@/assets/js/AudioPlayer.js'
+const processBarLength = 493
 // 初始化播放器
 const player = document.createElement('audio')
 player.autoplay = false
@@ -15,7 +16,9 @@ const state = {
   // 保存当前播放歌曲在播放列表中的位置
   playingIndex: 0,
   // 计秒器，保存当前播放的时间
-  secCounter: '00:00'
+  secCounter: '00:00',
+  // 保存播放条长度
+  playedLength: '0px'
 }
 
 const getters = {
@@ -40,7 +43,7 @@ const actions = {
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
-        dispatch('getCurrentTimePerSec')
+        console.log('开始播放')
       }
       playBtn.classList.add('playing')
     } else {
@@ -52,7 +55,7 @@ const actions = {
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
-        dispatch('getCurrentTimePerSec')
+        console.log('开始播放')
       }
     }
   },
@@ -92,6 +95,34 @@ const actions = {
     window.counter = setInterval(() => {
       state.secCounter = formatTime(state.player.currentTime)
     }, 1000)
+  },
+  // 获取当前播放条长度
+  getPlayedLength ({ state }) {
+    state.playedLength = (processBarLength / state.player.duration * state.player.currentTime) + 'px'
+  },
+  addPlayHooks ({ state, dispatch }) {
+    state.player.onloadstart = () => {
+      console.log('loadstart, 音频开始加载')
+    }
+    state.player.ondurationchange = () => {
+      console.log('durationchange, 音频时长获取')
+    }
+    state.player.onloadedmetadata = () => {
+      console.log('loadedmetadata, 已获取元数据')
+    }
+    state.player.onloadeddata = () => {
+      console.log('loadeddata, Browser has loaded the current frame')
+    }
+    state.player.onprogress = () => {
+      console.log('onprogress, 开始获取音频数据')
+    }
+    state.player.oncanplay = () => {
+      console.log('oncanplay, 可以开始播放了')
+      dispatch('getCurrentTimePerSec')
+    }
+    state.player.oncanplaythrough = () => {
+      console.log('oncanplaythrough, 可以无缓冲播放')
+    }
   }
 }
 

@@ -17,7 +17,6 @@ export default {
   },
   methods: {
     selectList (id) {
-      console.log(id, '--------listId')
       this.$router.push({ name: 'playListDetail', params: { id: id }})
     }
   }
@@ -26,7 +25,6 @@ export default {
 
 <style lang="scss" scoped>
 .play-list{
-  padding-top: 120px;
   padding-bottom: 53px;
   display: flex;
   flex-direction: row;
