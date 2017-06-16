@@ -29,7 +29,7 @@
               <span class="btn" id="drag_control_point"><i></i></span>
             </div>
           </div>
-          <span class="time"><em>{{currentTime}}</em> / {{duration}}</span>
+          <span class="time"><em>{{secCounter}}</em> / {{currentMusic.duration}}</span>
         </div>
       </div>
       <div class="operations">
@@ -47,7 +47,7 @@
         <a href="javascript:;" hidefocus="true" data-action="volume" class="icon icn-vol"></a>
         <a href="javascript:;" hidefocus="true" data-action="mode" class="icon icn-loop" title="循环"></a>
         <span class="toggle-play-panel">
-          <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list">50</a>
+          <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list">{{playList.length}}</a>
         </span>
       </div>
     </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import { AudioPlayer } from '@/assets/js/AudioPlayer.js'
+  import { formatTime } from '@/assets/js/AudioPlayer.js'
   import playBarControl from '@/assets/js/play_bar_control.js'
   import { mapActions, mapMutations, mapGetters } from 'vuex'
   export default {
@@ -72,7 +72,9 @@
     computed: {
       ...mapGetters([
         'player',
-        'currentMusic'
+        'currentMusic',
+        'playList',
+        'secCounter'
       ])
     },
     methods: {
@@ -82,7 +84,6 @@
       // 点击播放按钮时触发  "播放／暂停"
       play (event) {
         this.playOrPause()
-        // this.getCurrentTime() 这个要写在 store 中
       }
       // 定义当一首歌播放接受后的行为
     //   end () {
@@ -138,7 +139,7 @@
     //   })
     // },
     mounted () {
-      console.log(this.currentMusic, '------currentMusic')
+
     }
   }
 </script>

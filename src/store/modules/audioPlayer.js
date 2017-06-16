@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import api from '@/api'
+import { formatTime } from '@/assets/js/AudioPlayer.js'
 // 初始化播放器
 const player = document.createElement('audio')
 player.autoplay = false
@@ -12,7 +13,9 @@ const state = {
   // 保存当前播放列表
   playList: [{ name: '威风堂堂', src: 'http://localhost:8080/static/img/weifengtangtang.c12d39c.mp3', artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34' }],
   // 保存当前播放歌曲在播放列表中的位置
-  playingIndex: 0
+  playingIndex: 0,
+  // 计秒器，保存当前播放的时间
+  secCounter: ''
 }
 
 const getters = {
@@ -26,7 +29,8 @@ const mutations = {
 }
 
 const actions = {
-  playOrPause ({ state, getters }) {
+  // 播放／暂停
+  playOrPause ({ state, getters, dispatch }) {
     const playBtn = document.getElementById('play_btn')
     if (state.player.paused) {
       if (state.player.src === getters.currentMusic.src) {
@@ -36,6 +40,7 @@ const actions = {
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
+        dispatch('getCurrentTimePerSec')
       }
       playBtn.classList.add('playing')
     } else {
@@ -47,12 +52,15 @@ const actions = {
         console.log('我重新播放')
         state.player.src = getters.currentMusic.src
         state.player.play()
+        dispatch('getCurrentTimePerSec')
       }
     }
   },
+  // 获取歌曲 url
   getMusicUrl ({ commit }, id) {
     return api.getMusicUrl(id)
   },
+  // 将歌曲添加至播放列表
   addItemToPlayList ({ state }, item) {
     state.playList.push(item)
   },
@@ -78,6 +86,12 @@ const actions = {
         state.playingIndex = index
       }
     }
+  },
+  // 每隔一秒获取当前播放时间。
+  getCurrentTimePerSec ({ state }) {
+    window.counter = setInterval(() => {
+      state.secCounter = formatTime(state.player.currentTime)
+    }, 1000)
   }
 }
 

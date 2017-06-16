@@ -6,6 +6,7 @@ export const listDetail = state => state.playList.listDetail
 export const listName = state => state.playList.listName
 export const list = state => state.playList.list
 export const player = state => state.audioPlayer.player
-// export const playList = state => state.audioPlayer.playList
+export const playList = state => state.audioPlayer.playList
+export const secCounter = state => state.audioPlayer.secCounter
 
 

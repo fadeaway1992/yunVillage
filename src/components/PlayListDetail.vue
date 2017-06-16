@@ -3,7 +3,7 @@
     <Headtop style="display: none;"></Headtop>
     <div>{{listName}}</div>
     <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
-      {{item.name}}
+      {{item.name}}      {{formattedTime(item.dt)}}
     </div>
     <Player></Player>
   </div>
@@ -13,6 +13,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import Player from './Player'
 import Headtop from './Headtop'
+import { formatTime } from '@/assets/js/AudioPlayer.js'
 export default {
   computed: {
     ...mapGetters([
@@ -32,6 +33,10 @@ export default {
       'playOrPause',
       'changePlayIndex'
     ]),
+    // 获取歌曲时长
+    formattedTime (dt) {
+      return formatTime(dt/1000)
+    },
     addToPlayListAndPlayIt: async function (item) {
       const music = await this.getMusicUrl(item.id)
       if (music.type != 'mp3') {
@@ -42,7 +47,7 @@ export default {
           artist = artist + '/' + item.ar[i].name
           i++
         }
-        const obj = {name:item.name, src: music.url, artist: artist, cover: item.al.picUrl}
+        const obj = {name:item.name, id: item.id, src: music.url, artist: artist, cover: item.al.picUrl, duration:formatTime(item.dt/1000)}
         this.addItemToPlayList(obj)
         this.changePlayIndex('last')
         this.playOrPause()
