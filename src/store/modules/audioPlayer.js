@@ -59,6 +59,11 @@ const actions = {
       }
     }
   },
+  checkout ({ state }) {
+    state.player.currentTime = 0
+    clearInterval(window.counter)
+    clearInterval(window.bufferCount)
+  },
   // 获取歌曲 url
   getMusicUrl ({ commit }, id) {
     return api.getMusicUrl(id)
@@ -91,9 +96,12 @@ const actions = {
     }
   },
   // 每隔一秒获取当前播放时间。
-  getCurrentTimePerSec ({ state }) {
+  getCurrentTimePerSec ({ state, dispatch }) {
     window.counter = setInterval(() => {
       state.secCounter = formatTime(state.player.currentTime)
+      if (state.player.currentTime === state.player.duration) {
+        dispatch('checkout')
+      }
     }, 1000)
   },
   // 每隔一秒获取缓冲长度

@@ -95,14 +95,6 @@
     //     clearInterval(this.playCount)
     //     this.currentTime = '00:00'
     //   },
-    //   // 每隔五秒获取一次缓冲时间
-    //   getBuffered () {
-    //     const self = this
-    //     const buffer = setInterval(function () {
-    //       AudioPlayer.buffered = AudioPlayer.player.buffered.end(0)
-    //       self.buffered = 493 / AudioPlayer.player.duration * AudioPlayer.buffered + 'px'
-    //     }, 5000)
-    //   }
     },
     watch: {
       secCounter: function (val) {
@@ -114,10 +106,6 @@
     },
     created () {
       this.addPlayHooks()
-    //   // this.getBuffered()
-    //   AudioPlayer.player.addEventListener('canplay', function () {
-    //     self.getDuration()
-    //   })
     //   this.$nextTick(function () {
     //     // 添加播放拖拽功能
     //     const controlPoint = document.getElementById('drag_control_point')
