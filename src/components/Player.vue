@@ -24,7 +24,7 @@
         </div>
         <div class="process-bar">
           <div class="bar-bg">
-            <div class="ready" :style="{width:buffered}"></div>
+            <div class="ready" :style="{width:bufferedLength}"></div>
             <div class="current" :style="{width:playedLength}">
               <span class="btn" id="drag_control_point"><i></i></span>
             </div>
@@ -74,7 +74,8 @@
         'currentMusic',
         'playList',
         'secCounter',
-        'playedLength'
+        'playedLength',
+        'bufferedLength'
       ])
     },
     methods: {

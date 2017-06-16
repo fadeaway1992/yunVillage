@@ -9,5 +9,6 @@ export const player = state => state.audioPlayer.player
 export const playList = state => state.audioPlayer.playList
 export const secCounter = state => state.audioPlayer.secCounter
 export const playedLength = state => state.audioPlayer.playedLength
+export const bufferedLength = state => state.audioPlayer.bufferedLength
 
 

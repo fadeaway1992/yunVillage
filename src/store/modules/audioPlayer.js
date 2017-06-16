@@ -9,8 +9,8 @@ player.autoplay = false
 const state = {
   // 保存<audio></audio>标签
   player: player,
-  // 保存播放器当前缓冲时间
-  buffered: '',
+  // 保存播放器当前缓冲长度
+  bufferedLength: '0px',
   // 保存当前播放列表
   playList: [{ name: '威风堂堂', src: 'http://localhost:8080/static/img/weifengtangtang.c12d39c.mp3', artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34', duration: '03:20' }],
   // 保存当前播放歌曲在播放列表中的位置
@@ -96,6 +96,12 @@ const actions = {
       state.secCounter = formatTime(state.player.currentTime)
     }, 1000)
   },
+  // 每隔一秒获取缓冲长度
+  getBufferedPerSec ({ state }) {
+    window.bufferCount = setInterval(() => {
+      state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(0) + 'px'
+    }, 1000)
+  },
   // 获取当前播放条长度
   getPlayedLength ({ state }) {
     state.playedLength = (processBarLength / state.player.duration * state.player.currentTime) + 'px'
@@ -118,10 +124,14 @@ const actions = {
     }
     state.player.oncanplay = () => {
       console.log('oncanplay, 可以开始播放了')
+      dispatch('getBufferedPerSec')
       dispatch('getCurrentTimePerSec')
     }
     state.player.oncanplaythrough = () => {
       console.log('oncanplaythrough, 可以无缓冲播放')
+    }
+    state.player.onwaiting = () => {
+      console.log('onwaiting, 正在缓冲')
     }
   }
 }
