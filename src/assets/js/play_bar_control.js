@@ -1,7 +1,7 @@
 export default function playBarControl (controlPoint, processBar, player) {
   let leftDis
   const processBarFullLength = 493
-  
+
   // 定义鼠标移动时的行为
   function Move (event) {
     const e = event || window.event
@@ -24,10 +24,8 @@ export default function playBarControl (controlPoint, processBar, player) {
     window.controlPointDown = 0
   }
 
-
-
+  // 定义鼠标按下时的行为
   controlPoint.addEventListener('mousedown', function (event) {
-    console.log('------------------------i am clicked !!!-------------------')
     const e = event || window.event
     event.stopPropagation()
     window.controlPointDown = 1

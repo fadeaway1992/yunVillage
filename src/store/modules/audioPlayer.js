@@ -68,17 +68,22 @@ const actions = {
   checkout ({ state }, type) {
     switch (type) {
     case 'over':
-      state.playedLength = '0px'
       clearInterval(window.counter)
       clearInterval(window.bufferCount)
+      state.playedLength = '0px'
       const playBtn = document.getElementById('play_btn')
       playBtn.classList.remove('playing')
       break
     case 'new':
-      state.playedLength = '0px'
       clearInterval(window.counter)
       clearInterval(window.bufferCount)
+      state.playedLength = '0px'
+      break
+    default:
+      break
     }
+    window.counter = undefined
+    window.bufferCount = undefined
   },
 
   // 获取歌曲 url
@@ -128,8 +133,14 @@ const actions = {
   // 每隔一秒获取缓冲长度
   getBufferedPerSec ({ state }) {
     window.bufferCount = setInterval(() => {
-      state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(0) + 'px'
+      console.log(state.player.buffered.length, '缓冲到这儿啦')
+      let lastRange = state.player.buffered.length - 1
+      while (state.player.currentTime < state.player.buffered.start(lastRange)) {
+        lastRange--
+      }
+      state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(lastRange) + 'px'
     }, 1000)
+    console.log(window.bufferCount, '-----window.bufferCount')
   },
 
   // 获取当前播放条长度
@@ -163,8 +174,8 @@ const actions = {
     }
     state.player.oncanplay = () => {
       console.log('oncanplay, 可以开始播放了')
-      dispatch('getBufferedPerSec')
-      dispatch('getCurrentTimePerSec')
+      if (!window.bufferCount) { dispatch('getBufferedPerSec') }
+      if (!window.counter) { dispatch('getCurrentTimePerSec') }
       document.getElementById('loading').classList.remove('loading')
     }
     state.player.oncanplaythrough = () => {
