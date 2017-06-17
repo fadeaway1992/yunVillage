@@ -36,6 +36,7 @@ const actions = {
 
   // 播放／暂停
   playOrPause ({ state, getters, dispatch }) {
+    console.log(getters.currentMusic, '-----getters读不到吗？')
     const playBtn = document.getElementById('play_btn')
     if (state.player.paused) {
       if (state.player.src === getters.currentMusic.src) {
@@ -96,8 +97,15 @@ const actions = {
     state.playList.push(item)
   },
 
+  // 添加新歌单
+  checkToNewList ({ state, dispatch }, newList) {
+    state.playList = newList
+    dispatch('changePlayIndex', 'first')
+    dispatch('playOrPause')
+  },
+
   // 切换播放列表中当前音乐的指向，可以指向下一首，上一首，第一首，最后一首，或者直接指定数字 0 --- length-1。
-  changePlayIndex ({ state }, index) {
+  changePlayIndex ({ state, dispatch }, index) {
     switch (index) {
     case 'next':
       state.playingIndex + 1 < state.playList.length ? state.playingIndex++ : state.playingIndex = 0
@@ -116,6 +124,22 @@ const actions = {
         return
       } else {
         state.playingIndex = index
+      }
+      break
+    }
+    dispatch('checkCurrentMusicUrl')
+  },
+
+  // 检查当前音乐的 url
+  checkCurrentMusicUrl: async function ({state, getters, dispatch}) {
+    if (getters.currentMusic.src){
+      return
+    } else {
+      const music = await dispatch('getMusicUrl',getters.currentMusic.id)
+      if (music.type != 'mp3') {
+        console.log('it is not a mp3 file!')
+      } else {
+        state.playList[state.playingIndex].src = music.url
       }
     }
   },
