@@ -55,7 +55,7 @@ export default {
       } 
       const obj = this.theWholeList[index]
       this.addItemToPlayList(obj)
-      this.changePlayIndex('last')
+      await this.changePlayIndex('last')
       this.playOrPause()
     },
 
