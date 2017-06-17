@@ -93,7 +93,9 @@
         if (window.controlPointDown === 1) {
           return
         }
+        if (val === this.currentMusic.duration) { return }
         this.getPlayedLength()
+        console.log('获取进度条长度')
       }
     },
     created () {

@@ -72,6 +72,7 @@ const actions = {
     case 'over':
       clearInterval(window.counter)
       clearInterval(window.bufferCount)
+      console.log('已经取消计数')
       state.playedLength = '0px'
       const playBtn = document.getElementById('play_btn')
       playBtn.classList.remove('playing')
