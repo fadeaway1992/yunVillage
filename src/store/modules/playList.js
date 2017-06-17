@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
   getListDetail ({ commit }, id) {
-    api.getListDetail(id).then(res => {
+    return api.getListDetail(id).then(res => {
       commit(types.GET_LIST_DETAIL, res)
     })
   }

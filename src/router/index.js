@@ -22,8 +22,9 @@ export default new Router({
           path: 'playlist/:id',
           name: 'playListDetail',
           component: PlayListDetail,
-          beforeEnter: (to, from, next) => {
-            store.dispatch('getListDetail', to.params.id)
+          beforeEnter: async (to, from, next) => {
+            await store.dispatch('getListDetail', to.params.id)
+            console.log(store.state.playList.list, '看看有没有拿到 list')
             // 这里需要判断返回值code，该歌单是否存在。
             next()
           }

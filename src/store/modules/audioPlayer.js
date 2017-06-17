@@ -6,14 +6,14 @@ const processBarLength = 493
 // 初始化播放器
 const player = document.createElement('audio')
 player.autoplay = false
-
+player.src = "http://m10.music.126.net/20170617220129/72c13e639c9c5f419fdb1ce1c99a8dde/ymusic/3e1a/3c78/794d/c12d39cfcff847f740aaf21b642004f1.mp3"
 const state = {
   // 保存<audio></audio>标签
   player: player,
   // 保存播放器当前缓冲长度
   bufferedLength: '0px',
   // 保存当前播放列表
-  playList: [{ name: '威风堂堂', src: 'http://localhost:8080/static/img/weifengtangtang.c12d39c.mp3', artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34', duration: '03:20' }],
+  playList: [{ name: '威风堂堂', id:33579015, src: "http://m10.music.126.net/20170617220129/72c13e639c9c5f419fdb1ce1c99a8dde/ymusic/3e1a/3c78/794d/c12d39cfcff847f740aaf21b642004f1.mp3", artist: '洛天依', cover: 'http://p3.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=34y34', duration: '03:20' }],
   // 保存当前播放歌曲在播放列表中的位置
   playingIndex: 0,
   // 计秒器，保存当前播放的时间
@@ -37,6 +37,7 @@ const actions = {
   // 播放／暂停
   playOrPause ({ state, getters, dispatch }) {
     console.log(getters.currentMusic, '-----getters读不到吗？')
+    console.log(state.player.src, '----看看是否获得了src')
     const playBtn = document.getElementById('play_btn')
     if (state.player.paused) {
       if (state.player.src === getters.currentMusic.src) {
@@ -98,9 +99,9 @@ const actions = {
   },
 
   // 添加新歌单
-  checkToNewList ({ state, dispatch }, newList) {
+  checkToNewList: async ({ state, dispatch }, newList) => {
     state.playList = newList
-    dispatch('changePlayIndex', 'first')
+    await dispatch('changePlayIndex', 'first')
     dispatch('playOrPause')
   },
 
