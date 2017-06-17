@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>{{listName}}</div>
+    <div @click="playTheWholeList">{{listName}}</div>
     <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
       {{item.name}}      {{formattedTime(item.dt)}}
     </div>
@@ -20,10 +20,12 @@ export default {
       'list'
     ])
   },
+
   components: {
     Player,
     Headtop
   },
+
   methods:{
     ...mapActions([
       'getMusicUrl',
@@ -31,6 +33,7 @@ export default {
       'playOrPause',
       'changePlayIndex'
     ]),
+
     // 获取歌曲时长
     formattedTime (dt) {
       return formatTime(dt/1000)
@@ -50,6 +53,19 @@ export default {
         this.changePlayIndex('last')
         this.playOrPause()
       }
+    },
+
+    // 播放整个歌单
+    playTheWholeList () {
+      const theList = this.list.map((item) => {
+        let artist = item.ar[0].name, i = 1
+        while ( i < item.ar.length) {
+          artist = artist + '/' + item.ar[i].name
+          i++
+        }
+        return {name:item.name, id: item.id, src:'', artist: artist, cover: item.al.picUrl, duration: formatTime(item.dt/1000)}
+      })
+      console.log(theList,'这是整理好的整个歌单')
     }
   },
   mounted () {

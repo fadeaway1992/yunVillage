@@ -133,14 +133,12 @@ const actions = {
   // 每隔一秒获取缓冲长度
   getBufferedPerSec ({ state }) {
     window.bufferCount = setInterval(() => {
-      console.log(state.player.buffered.length, '缓冲到这儿啦')
       let lastRange = state.player.buffered.length - 1
       while (state.player.currentTime < state.player.buffered.start(lastRange)) {
         lastRange--
       }
       state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(lastRange) + 'px'
     }, 1000)
-    console.log(window.bufferCount, '-----window.bufferCount')
   },
 
   // 获取当前播放条长度
