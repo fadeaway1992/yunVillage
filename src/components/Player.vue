@@ -45,7 +45,7 @@
           </div>
         </div>
         <a href="javascript:;" hidefocus="true" data-action="volume" class="icon icn-vol"></a>
-        <a href="javascript:;" hidefocus="true" data-action="mode" class="icon icn-loop" title="循环"></a>
+        <a href="javascript:;" hidefocus="true" data-action="mode" class="icon" :class="mode" title="循环" @click.prevent="changeLoopStyle('toggle')"></a>
         <span class="toggle-play-panel">
           <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list">{{playList.length}}</a>
         </span>
@@ -73,8 +73,16 @@
         'playList',
         'secCounter',
         'playedLength',
-        'bufferedLength'
-      ])
+        'bufferedLength',
+        'loopStyle'
+      ]),
+      mode () {
+        return {
+          'icn-loop': this.loopStyle === 'listLoop',
+          'icn-one': this.loopStyle === 'singleLoop',
+          'icn-shuffle': this.loopStyle === 'shuffle'
+        }
+      }
     },
     methods: {
       ...mapActions([
@@ -84,8 +92,10 @@
         'getPlayedLength',
         // 添加钩子函数
         'addPlayHooks',
-        // 激活进度拖拽
-        'activateDragPoint'
+        // 激活进度条拖拽
+        'activateDragPoint',
+        // 改变循环模式
+        'changeLoopStyle'
       ])
     },
     watch: {
@@ -430,6 +440,18 @@
           background-position: -3px -344px;
           &:hover{
             background-position: -33px -344px;
+          }
+        }
+        .icn-shuffle {
+          background-position: -66px -248px;
+          &:hover{
+            background-position: -93px -248px;
+          }
+        }
+        .icn-one {
+          background-position: -66px -344px;
+          &:hover{
+            background-position: -93px -344px;
           }
         }
         .toggle-play-panel{

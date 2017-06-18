@@ -7,7 +7,6 @@ const processBarLength = 493
 const player = document.createElement('audio')
 player.autoplay = false
 player.src = "init"
-player.loop = true
 const state = {
   // 保存<audio></audio>标签
   player: player,
@@ -22,7 +21,7 @@ const state = {
   // 保存播放条长度
   playedLength: '0px',
   // 保存歌曲循环方式
-  loopStyle: 'singleLoop'  // singleLoop, listLoop
+  loopStyle: 'listLoop'  // singleLoop, listLoop
 }
 
 const getters = {
@@ -68,7 +67,7 @@ const actions = {
     }
   },
 
-  // 定义一首歌播放结束后的动作
+  // 切歌 => over： 自然播放结束。  new: 在页面中点击一首新单曲播放。 next: 点击下一首。  prev: 点击上一首。
   checkout: async ({ state, getters, dispatch }, type) => {
     switch (type) {
     case 'over':
@@ -114,7 +113,7 @@ const actions = {
   // 添加新歌单
   checkToNewList: async function ({ state, dispatch }, newList) {
     state.playList = newList
-    state.player.loop = false
+    dispatch('changeLoopStyle', 'list')
     state.loopStyle = 'listLoop'
     await dispatch('changePlayIndex', 'first')
     dispatch('playOrPause')
@@ -238,6 +237,36 @@ const actions = {
     state.player.onplaying = () => {
       console.log('onplaying, 缓冲结束，开始播放')
       document.getElementById('loading').classList.remove('loading')
+    }
+  },
+
+  // 改变循环模式
+  changeLoopStyle ({ state }, mode) {
+    console.log(mode, '准备切换播放模式')
+    switch (mode) {
+      case 'toggle':
+        if (state.loopStyle === 'listLoop') {
+          state.loopStyle = 'singleLoop'
+          state.player.loop = true
+          console.log(state.loopStyle, '已经切换到单曲循环模式')
+          break
+        }
+        if (state.loopStyle === 'singleLoop') {
+          state.loopStyle = 'listLoop'
+          state.player.loop = false
+          console.log(state.loopStyle, '已经切换到列表循环模式')
+          break
+        }
+      case 'single':
+        state.loopStyle = 'singleLoop'
+        state.player.loop = true
+        break
+      case 'list':
+      state.loopStyle = 'listLoop'
+      state.player.loop = false
+        break
+      case 'shuffle':
+        break
     }
   }
 }
