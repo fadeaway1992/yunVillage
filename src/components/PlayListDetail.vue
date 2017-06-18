@@ -53,10 +53,11 @@ export default {
         console.log('没找到')
         return
       } 
-      const obj = this.theWholeList[index]
-      this.addItemToPlayList(obj)
-      await this.changePlayIndex('last')
-      this.playOrPause()
+      const obj = this.theWholeList[index] // 获取这首歌的信息对象
+      this.addItemToPlayList(obj)          // 添加到播放列表的末尾
+      this.playOrPause()                   // 暂停当前歌曲
+      await this.changePlayIndex('last')   // 改变当前播放音乐的指向
+      this.playOrPause()                   // 播放
     },
 
     // 获取整个歌单
