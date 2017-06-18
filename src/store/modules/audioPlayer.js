@@ -7,6 +7,7 @@ const processBarLength = 493
 const player = document.createElement('audio')
 player.autoplay = false
 player.src = "init"
+player.loop = true
 const state = {
   // 保存<audio></audio>标签
   player: player,
@@ -19,7 +20,9 @@ const state = {
   // 计秒器，保存当前播放的时间
   secCounter: '00:00',
   // 保存播放条长度
-  playedLength: '0px'
+  playedLength: '0px',
+  // 保存歌曲循环方式
+  loopStyle: 'singleLoop'  // singleLoop, listLoop
 }
 
 const getters = {
@@ -36,7 +39,7 @@ const actions = {
 
   // 播放／暂停
   playOrPause ({ state, getters, dispatch }) {
-    console.log(getters.currentMusic.src, '----看看是否获得了src')
+    console.log(getters.currentMusic.src, '----看看 currentMusic 是否获得了src')
     const playBtn = document.getElementById('play_btn')
     if (state.player.paused) {
       if (state.player.src === getters.currentMusic.src) {
@@ -45,7 +48,6 @@ const actions = {
       } else {
         dispatch('checkout', 'new')
         console.log('我重新播放')
-        state.player.src = getters.currentMusic.src
         console.log(state.player.src, '-----播放前检查是否有播放地址')
         state.player.play()
         console.log('开始播放')
@@ -59,7 +61,7 @@ const actions = {
       } else {
         dispatch('checkout', 'new')
         console.log('我重新播放')
-        state.player.src = getters.currentMusic.src
+        console.log(state.player.src, '-----播放前检查是否有播放地址')
         state.player.play()
         console.log('开始播放')
       }
@@ -67,20 +69,30 @@ const actions = {
   },
 
   // 定义一首歌播放结束后的动作
-  checkout ({ state }, type) {
+  checkout: async ({ state, getters, dispatch }, type) => {
     switch (type) {
     case 'over':
-      clearInterval(window.counter)
-      clearInterval(window.bufferCount)
-      console.log('已经取消计数')
-      state.playedLength = '0px'
-      const playBtn = document.getElementById('play_btn')
-      playBtn.classList.remove('playing')
-      break
+      if (state.loopStyle === 'singleLoop') {
+        clearInterval(window.counter)
+        clearInterval(window.bufferCount)
+        console.log('已经取消计数')
+        break
+      } else if (state.loopStyle === 'listLoop') {
+        clearInterval(window.counter)
+        clearInterval(window.bufferCount)
+        console.log('已经取消计数')
+        state.playedLength = '0px'
+        await dispatch('changePlayIndex', 'next')
+        state.player.src = getters.currentMusic.src
+        dispatch('playOrPause')
+        break
+      }
     case 'new':
       clearInterval(window.counter)
       clearInterval(window.bufferCount)
       state.playedLength = '0px'
+      state.player.src = getters.currentMusic.src
+      console.log('切换音源成功')
       break
     default:
       break
@@ -102,8 +114,9 @@ const actions = {
   // 添加新歌单
   checkToNewList: async function ({ state, dispatch }, newList) {
     state.playList = newList
+    state.player.loop = false
+    state.loopStyle = 'listLoop'
     await dispatch('changePlayIndex', 'first')
-    console.log('打印出这个时说明已经可以播放了')
     dispatch('playOrPause')
   },
 
@@ -113,6 +126,7 @@ const actions = {
       switch (index) {
     case 'next':
       state.playingIndex + 1 < state.playList.length ? state.playingIndex++ : state.playingIndex = 0
+      console.log(state.playingIndex, '-------已经切换到了下一首')
       break
     case 'prev':
       state.playingIndex - 1 < 0 ? state.playingIndex = state.playList.length - 1 : state.playingIndex--
