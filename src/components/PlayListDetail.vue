@@ -23,7 +23,8 @@ export default {
     ...mapGetters([
       'listDetail',
       'listName',
-      'list'
+      'list',
+      'playList'
     ])
   },
 
@@ -54,10 +55,21 @@ export default {
         return
       } 
       const obj = this.theWholeList[index] // 获取这首歌的信息对象
-      this.addItemToPlayList(obj)          // 添加到播放列表的末尾
-      this.playOrPause()                   // 暂停当前歌曲
-      await this.changePlayIndex('last')   // 改变当前播放音乐的指向
-      this.playOrPause()                   // 播放
+      // 将当前播放列表转为一个 id 组成的 数组
+      const listID = this.playList.map((item) => {
+        return item.id
+      })
+      const indexInPlayList = listID.indexOf(item.id)
+      if ( indexInPlayList != -1) {
+        console.log('这首歌曲已经在播放列表里了')
+        await this.changePlayIndex(indexInPlayList)   // 改变当前播放音乐的指向
+        this.playOrPause()                   // 播放
+      } else {
+        this.addItemToPlayList(obj)          // 添加到播放列表的末尾
+        console.log('向播放列表添加这首歌曲')
+        await this.changePlayIndex('last')   // 改变当前播放音乐的指向
+        this.playOrPause()                   // 播放
+      }
     },
 
     // 获取整个歌单
