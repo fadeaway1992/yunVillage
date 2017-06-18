@@ -9,9 +9,9 @@
     <div class="bg"></div>
     <div class="wrap">
       <div class="ctrl-btns">
-        <a href="javascript:;" class="prev" title="上一首"></a>
+        <a href="javascript:;" class="prev" title="上一首" @click.prevent="checkToPrev"></a>
         <a href="javascript:;" class="play-or-pause pausing" id="play_btn" title="播放／暂停" @click="playOrPause"></a>
-        <a href="javascript:;" class="next" title="下一首"></a>
+        <a href="javascript:;" class="next" title="下一首" @click.prevent="checkToNext"></a>
       </div>
       <div class="cover">
         <img :src="currentMusic.cover" width="34" height="34">
@@ -90,14 +90,27 @@
         'playOrPause',
         // 获取进度条当前长度
         'getPlayedLength',
+        // 切换播放列表中当前歌曲的指向
+        'changePlayIndex',
         // 添加钩子函数
         'addPlayHooks',
         // 激活进度条拖拽
         'activateDragPoint',
         // 改变循环模式
         'changeLoopStyle'
-      ])
+      ]),
+
+      checkToNext: async function () {
+        await this.changePlayIndex('next')
+        this.playOrPause()
+      },
+
+      checkToPrev: async function () {
+        await this.changePlayIndex('prev')
+        this.playOrPause()
+      }
     },
+
     watch: {
       secCounter: function (val) {
         if (window.controlPointDown === 1) {
@@ -107,6 +120,7 @@
         this.getPlayedLength()
       }
     },
+
     created () {
       this.addPlayHooks()
       this.$nextTick(function () {
@@ -114,6 +128,7 @@
         this.activateDragPoint()
       })
     },
+
     mounted () {
 
     }

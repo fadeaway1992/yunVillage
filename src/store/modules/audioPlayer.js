@@ -129,6 +129,7 @@ const actions = {
       break
     case 'prev':
       state.playingIndex - 1 < 0 ? state.playingIndex = state.playList.length - 1 : state.playingIndex--
+      console.log(state.playingIndex, '-------已经切换到了上一首')
       break
     case 'last':
       state.playingIndex = state.playList.length - 1
