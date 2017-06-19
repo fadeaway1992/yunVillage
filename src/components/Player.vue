@@ -47,16 +47,16 @@
         <a href="javascript:;" hidefocus="true" data-action="volume" class="icon icn-vol"></a>
         <a href="javascript:;" hidefocus="true" data-action="mode" class="icon" :class="mode" title="循环" @click.prevent="changeLoopStyle('toggle')"></a>
         <span class="toggle-play-panel">
-          <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list">{{playList.length}}</a>
+          <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list"  @click.prevent="toggleLyricPanel">{{playList.length}}</a>
         </span>
       </div>
     </div>
-    <div class="play-panel" id="play_list_panel">
+    <div class="play-panel" id="play_list_panel" v-show="showLyricPanel">
       <div class="panel-head">
         <div class="head-content">
-          <h4>播放列表<span class="amount">(61)</span></h4>
-          <p class="song-title">转动命运之轮</p>
-          <span class="panel-close"></span>
+          <h4>播放列表 (<span class="amount"> {{playList.length}} </span>)</h4>
+          <p class="song-title">{{currentMusic.name}}</p>
+          <span class="panel-close" @click="toggleLyricPanel"></span>
         </div>
       </div>
       <div class="panel-body">
@@ -64,12 +64,12 @@
         <div class="mask"></div>
         <div class="list-content">
           <ul class="play-list">
-            <li class="now">
+            <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList">
               <div class="col col-1"><div class="play-icn"></div></div>
-              <div class="col col-2 text-overflow">威风堂堂</div>
+              <div class="col col-2 text-overflow">{{item.name}}</div>
               <div class="col col-3"></div>
-              <div class="col col-4 text-overflow"><span title="洛天依"><a href="javascript:;" hidefocus="true">洛天依</a></span></div>
-              <div class="col col-5">03:20</div>
+              <div class="col col-4 text-overflow"><span title="item.artist"><a href="javascript:;" hidefocus="true">{{item.artist}}</a></span></div>
+              <div class="col col-5">{{item.duration}}</div>
               <div class="col col-6"><a href="javascritp:;" class="ico-src" title="来自歌单"></a></div>
             </li>
           </ul>
@@ -92,11 +92,7 @@
   export default {
     data () {
       return {
-        currentTime: '00:00',
-        duration: '',
-        buffered: '0px',
-        playCount: '',
-        bufferCount: ''
+        showLyricPanel: false
       }
     },
     computed: {
@@ -141,6 +137,11 @@
       checkToPrev: async function () {
         await this.changePlayIndex('prev')
         this.playOrPause()
+      },
+
+      // 显示或隐藏歌词面板
+      toggleLyricPanel () {
+        this.showLyricPanel = !this.showLyricPanel
       }
     },
 
