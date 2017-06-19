@@ -60,8 +60,13 @@
         </div>
       </div>
       <div class="panel-body">
+        <img class="img-bg" src="http://music.163.com/api/img/blur/619025046449427" style="top: -360px;">
+        <div class="mask"></div>
         <div class="list-content"></div>
-        <div class="scroll-bar"></div>
+        <div class="scroll-bar">
+          <span class="scroll" hidefocus="true" style="height: 48.2857px; display: block; top: 0px;"></span>
+        </div>
+        <div class="mask2"></div>
         <div class="lyric-panel"></div>
         <div class="lyric-scroll-bar"></div>
       </div>
@@ -516,7 +521,6 @@
     transform: translateX(-50%);
     width: 986px;
     height: 301px;
-    background: #c0c0c0;
     .panel-head{
       height: 41px;
       padding: 0 5px;
@@ -546,16 +550,86 @@
           font-size: 14px;
         }
         .panel-close{
-
+          position: absolute;
+          top: 6px;
+          right: 8px;
+          width: 30px;
+          height: 30px;
+          overflow: hidden;
+          text-indent: -999px;
+          cursor: pointer;
+          background: url(../assets/img/playlist.png) no-repeat;
+          background-position: -195px 9px;
         }
       }
     }
     .panel-body{
+      position: absolute;
+      padding: 0 5px;
+      left: 0;
+      top: 41px;
+      width: 976px;
+      height: 260px;
+      overflow: hidden;
+      background: url(../assets/img/playlist_bg.png) repeat-y;
+      background-position: -1014px 0;
+      .img-bg{
+        position: absolute;
+        left: 2px;
+        z-index: 1;
+        width: 980px;
+        height: auto;
+      }
+      .mask{
+        position: absolute;
+        left: 2px;
+        top: 0;
+        z-index: 2;
+        width: 558px;
+        height: 260px;
+        background: #121212;
+        opacity: .5;
+      }
       .list-content{
-
+        position: absolute;
+        left: 2px;
+        top: 0;
+        z-index: 4;
+        height: 260px;
+        width: 553px;
+        overflow: hidden;
       }
       .scroll-bar{
-
+        position: absolute;
+        left: 555px;
+        top: -1px;
+        z-index: 2;
+        width: 6px;
+        height: 260px;
+        background: #000;
+        opacity: .5;
+        .scroll{
+          position: absolute;
+          left: 0;
+          top: 0px;
+          width: 4px;
+          border-radius: 5px;
+          height: 100px;
+          cursor: pointer;
+          background: #868686;
+          border: 1px solid #a6a6a6;
+          opacity: .8;
+        }
+      }
+      .mask2{
+        position: absolute;
+        left: 560px;
+        top: 0;
+        z-index: 3;
+        width: 420px;
+        height: 250px;
+        background: #121212;
+        opacity: .5;
       }
       .lyric-panel{
 
