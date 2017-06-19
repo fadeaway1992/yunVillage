@@ -62,7 +62,18 @@
       <div class="panel-body">
         <img class="img-bg" src="http://music.163.com/api/img/blur/619025046449427" style="top: -360px;">
         <div class="mask"></div>
-        <div class="list-content"></div>
+        <div class="list-content">
+          <ul class="play-list">
+            <li class="now">
+              <div class="col col-1"><div class="play-icn"></div></div>
+              <div class="col col-2 text-overflow">威风堂堂</div>
+              <div class="col col-3"></div>
+              <div class="col col-4 text-overflow"><span title="洛天依"><a href="javascript:;" hidefocus="true">洛天依</a></span></div>
+              <div class="col col-5">03:20</div>
+              <div class="col col-6"><a href="javascritp:;" class="ico-src" title="来自歌单"></a></div>
+            </li>
+          </ul>
+        </div>
         <div class="scroll-bar">
           <span class="scroll" hidefocus="true" style="height: 48.2857px; display: block; top: 0px;"></span>
         </div>
@@ -612,6 +623,72 @@
         height: 260px;
         width: 553px;
         overflow: hidden;
+        .play-list{
+          color: #ccc;
+          overflow: hidden;
+          li{
+            float: left;
+            width: 100%;
+            &:hover {
+              background-color: rgba(0,0,0,0.4);
+              color: #fff;
+            }
+            .col{
+              float: left;
+              padding-left: 10px;
+              height: 28px;
+              line-height: 28px;
+              overflow: hidden;
+              cursor: pointer;
+            }
+            .col-1{
+              width: 10px;
+              .play-icn{
+                visibility: hidden;
+                margin-top: 8px;
+                width: 10px;
+                height: 13px;
+                background: url(../assets/img/playlist.png) no-repeat;
+                background-position: -182px 0;
+              }
+            }
+            .col-2{
+              width: 256px;
+            }
+            .col-3{
+              width: 78px;
+            }
+            .col-4{
+              width: 70px;
+            }
+            .col-5{
+              width: 35px;
+            }
+            .col-6{
+              width: 37px;
+              padding-left: 6px;
+              .ico-src{
+                float: right;
+                width: 14px;
+                margin-left: 0;
+                background: url(../assets/img/playlist.png) no-repeat;
+                background-position: -80px 0px;
+                margin: 7px 0 0 10px;
+                height: 16px;
+                &:hover {
+                  background-position: -80px -20px;
+                }
+              }
+            }
+          }
+          .now{
+            background-color: rgba(0,0,0,0.3);
+            color: #fff;
+            .col-1 .play-icn{
+              visibility: visible;
+            }
+          }
+        }
       }
       .scroll-bar{
         position: absolute;
