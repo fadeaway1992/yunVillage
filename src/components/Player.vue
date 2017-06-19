@@ -51,6 +51,21 @@
         </span>
       </div>
     </div>
+    <div class="play-panel" id="play_list_panel">
+      <div class="panel-head">
+        <div class="head-content">
+          <h4>播放列表<span class="amount">(61)</span></h4>
+          <p class="song-title">转动命运之轮</p>
+          <span class="panel-close"></span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="list-content"></div>
+        <div class="scroll-bar"></div>
+        <div class="lyric-panel"></div>
+        <div class="lyric-scroll-bar"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -491,6 +506,44 @@
             }
           }
         }
+      }
+    }
+  }
+  #play_list_panel{
+    position: absolute;
+    left: 50%;
+    bottom: 47px;
+    transform: translateX(-50%);
+    width: 986px;
+    height: 301px;
+    background: #c0c0c0;
+    .panel-head{
+      .head-content{
+        h4{
+          .amount{
+
+          }
+        }
+        .song-title{
+
+        }
+        .panel-close{
+
+        }
+      }
+    }
+    .panel-body{
+      .list-content{
+
+      }
+      .scroll-bar{
+
+      }
+      .lyric-panel{
+
+      }
+      .lyric-scroll-bar{
+        
       }
     }
   }

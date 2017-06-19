@@ -16,6 +16,9 @@ const mutations = {
     } else {
       state.showLoginPad = false
       state.userInfo = res
+      // 请求到 userInfo 之后存到 localStorage 里面，下次直接从 storage 里面取。
+      localStorage.userInfo = JSON.stringify(res)
+      console.log(localStorage.userInfo, '已经将用户信息存到本地')
     }
   },
   [types.GET_USER_PLAYLIST] (state, musicList) {
@@ -24,7 +27,12 @@ const mutations = {
 }
 
 const actions = {
-  loginByPhone: ({ commit }, options) => {
+  loginByPhone: ({ commit, state }, options) => {
+    if (localStorage.userInfo) {
+      state.userInfo = JSON.parse(localStorage.userInfo)
+      console.log(state.userInfo, '已从本地取到用户信息')
+      return
+    }
     api.loginByPhone(options).then((res) => {
       console.log(res, '-----打印登录请求返回的结果')
       commit(types.GET_USER, res)
