@@ -68,7 +68,9 @@
         </div>
         <div class="mask2"></div>
         <div class="lyric-panel"></div>
-        <div class="lyric-scroll-bar"></div>
+        <div class="lyric-scroll-bar">
+          <span class="scroll-1" hidefocus="true" style="height: 32.3523px; display: block; top: 0px;"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -155,7 +157,19 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @mixin scroll {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    width: 4px;
+    border-radius: 5px;
+    height: 100px;
+    cursor: pointer;
+    background: #868686;
+    border: 1px solid #a6a6a6;
+    opacity: .8;
+  }
   .play-btn{
     width:50px;
     height:50px;
@@ -603,22 +617,13 @@
         position: absolute;
         left: 555px;
         top: -1px;
-        z-index: 2;
+        z-index: 10;
         width: 6px;
         height: 260px;
         background: #000;
         opacity: .5;
         .scroll{
-          position: absolute;
-          left: 0;
-          top: 0px;
-          width: 4px;
-          border-radius: 5px;
-          height: 100px;
-          cursor: pointer;
-          background: #868686;
-          border: 1px solid #a6a6a6;
-          opacity: .8;
+          @include scroll;
         }
       }
       .mask2{
@@ -632,10 +637,27 @@
         opacity: .5;
       }
       .lyric-panel{
-
+        position: absolute;
+        right: 40px;
+        top: 0;
+        z-index: 4;
+        margin: 21px 0 20px 0;
+        height: 219px;
+        width: 354px;
+        overflow: hidden;
       }
       .lyric-scroll-bar{
-
+        position: absolute;
+        right: 2px;
+        top: -1px;
+        z-index: 10;
+        width: 6px;
+        height: 260px;
+        background: #000;
+        opacity: .5;
+        .scroll-1{
+          @include scroll;
+        }
       }
     }
   }
