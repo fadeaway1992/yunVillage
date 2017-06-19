@@ -67,8 +67,8 @@
             <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList" @click="clickInPageToPlayASong(item)">
               <div class="col col-1"><div class="play-icn"></div></div>
               <div class="col col-2 text-overflow">{{item.name}}</div>
-              <div class="col col-3"></div>
-              <div class="col col-4 text-overflow"><span title="item.artist"><a href="javascript:;" hidefocus="true">{{item.artist}}</a></span></div>
+              <div class="col col-3"><div class="delete" title="删除"></div></div>
+              <div class="col col-4 text-overflow"><span :title="item.artist"><a href="javascript:;" hidefocus="true">{{item.artist}}</a></span></div>
               <div class="col col-5">{{item.duration}}</div>
               <div class="col col-6"><a href="javascritp:;" class="ico-src" title="来自歌单"></a></div>
             </li>
@@ -635,6 +635,9 @@
             &:hover {
               background-color: rgba(0,0,0,0.4);
               color: #fff;
+              .col-3 .delete{
+                display: block;
+              }
             }
             .col{
               float: left;
@@ -659,10 +662,21 @@
               width: 256px;
             }
             .col-3{
-              width: 78px;
+              width: 58px;
+              .delete{
+                display:none;
+                width: 13px;
+                height: 16px;
+                margin-top: 6px;
+                background: url(../assets/img/playlist.png) no-repeat;
+                background-position: -51px 0;
+                &:hover{
+                  background-position: -51px -20px;
+                }
+              }
             }
             .col-4{
-              width: 70px;
+              width: 90px;
             }
             .col-5{
               width: 35px;

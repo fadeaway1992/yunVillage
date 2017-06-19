@@ -261,7 +261,6 @@ const actions = {
 
   // 改变循环模式
   changeLoopStyle ({ state }, mode) {
-    console.log(mode, '准备切换播放模式')
     switch (mode) {
       case 'toggle':
         if (state.loopStyle === 'listLoop') {
