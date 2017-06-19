@@ -110,6 +110,21 @@ const actions = {
     state.playList.push(item)
   },
 
+  // 将歌曲从播放列表中删除
+  removeItemFromPlayList: async ({ state, dispatch}, item) => {
+    const index = state.playList.indexOf(item)
+    if (!index) { console.log('你要删除掉歌曲不在播放列表中')}
+    if (index === state.playingIndex) {
+      state.playList.splice(index, 1)
+      await dispatch('checkCurrentMusicUrl')
+      dispatch('playOrPause')
+      return
+    } else {
+      state.playList.splice(index, 1)
+      return
+    }
+  },
+
   // 添加新歌单
   checkToNewList: async function ({ state, dispatch }, newList) {
     state.playList = newList

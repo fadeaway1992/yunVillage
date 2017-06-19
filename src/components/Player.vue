@@ -67,7 +67,7 @@
             <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList" @click="clickInPageToPlayASong(item)">
               <div class="col col-1"><div class="play-icn"></div></div>
               <div class="col col-2 text-overflow">{{item.name}}</div>
-              <div class="col col-3"><div class="delete" title="删除"></div></div>
+              <div class="col col-3"><div class="delete" title="删除" @click.stop="removeItemFromPlayList(item)"></div></div>
               <div class="col col-4 text-overflow"><span :title="item.artist"><a href="javascript:;" hidefocus="true">{{item.artist}}</a></span></div>
               <div class="col col-5">{{item.duration}}</div>
               <div class="col col-6"><a href="javascritp:;" class="ico-src" title="来自歌单"></a></div>
@@ -128,7 +128,9 @@
         // 改变循环模式
         'changeLoopStyle',
         // 播放页面中的歌曲
-        'clickInPageToPlayASong'
+        'clickInPageToPlayASong',
+        // 从播放列表中删除歌曲
+        'removeItemFromPlayList'
       ]),
 
       checkToNext: async function () {
