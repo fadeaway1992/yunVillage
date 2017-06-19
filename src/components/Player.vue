@@ -518,14 +518,32 @@
     height: 301px;
     background: #c0c0c0;
     .panel-head{
+      height: 41px;
+      padding: 0 5px;
+      background: url(../assets/img/playlist_bg.png) no-repeat;
+      background-position: 0 0;
       .head-content{
+        position: relative;
+        height: 40px;
         h4{
-          .amount{
-
-          }
+          position: absolute;
+          left: 25px;
+          top: 0;
+          height: 39px;
+          line-height: 39px;
+          font-size: 14px;
+          color: #e2e2e2;
         }
         .song-title{
-
+          position: absolute;
+          left: 595px;
+          top: 0;
+          width: 346px;
+          text-align: center;
+          height: 39px;
+          line-height: 39px;
+          color: #fff;
+          font-size: 14px;
         }
         .panel-close{
 
@@ -543,7 +561,7 @@
 
       }
       .lyric-scroll-bar{
-        
+
       }
     }
   }
