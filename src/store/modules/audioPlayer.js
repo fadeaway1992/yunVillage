@@ -172,6 +172,24 @@ const actions = {
     })
   },
 
+  // 在页面中点击播放一首歌
+  clickInPageToPlayASong: async ({ state, dispatch }, obj) => {
+    const listID = state.playList.map((item) => {          // 将当前播放列表转为一个 id 组成的 数组
+      return item.id
+    })
+    const indexInPlayList = listID.indexOf(obj.id)
+    if ( indexInPlayList != -1) {
+      console.log('这首歌曲已经在播放列表里了')
+      await dispatch('changePlayIndex', indexInPlayList)   // 改变当前播放音乐的指向
+      dispatch('playOrPause')                              // 播放
+    } else {
+      dispatch('addItemToPlayList',obj)                    // 添加到播放列表的末尾
+      console.log('向播放列表添加这首歌曲')
+      await dispatch('changePlayIndex','last')             // 改变当前播放音乐的指向
+      dispatch('playOrPause')                              // 播放
+    }
+  },
+
   // 每隔一秒获取当前播放时间。
   getCurrentTimePerSec ({ state, dispatch }) {
     window.counter = setInterval(() => {

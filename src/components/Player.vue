@@ -64,7 +64,7 @@
         <div class="mask"></div>
         <div class="list-content">
           <ul class="play-list">
-            <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList">
+            <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList" @click="clickInPageToPlayASong(item)">
               <div class="col col-1"><div class="play-icn"></div></div>
               <div class="col col-2 text-overflow">{{item.name}}</div>
               <div class="col col-3"></div>
@@ -126,7 +126,9 @@
         // 激活进度条拖拽
         'activateDragPoint',
         // 改变循环模式
-        'changeLoopStyle'
+        'changeLoopStyle',
+        // 播放页面中的歌曲
+        'clickInPageToPlayASong'
       ]),
 
       checkToNext: async function () {

@@ -33,56 +33,43 @@ export default {
     Headtop
   },
 
-  methods:{
+  methods: {
     ...mapActions([
       'getMusicUrl',
       'addItemToPlayList',
       'playOrPause',
       'changePlayIndex',
-      'checkToNewList'
+      'checkToNewList',
+      'clickInPageToPlayASong'
     ]),
 
     // 获取歌曲时长
     formattedTime (dt) {
-      return formatTime(dt/1000)
+      return formatTime(dt / 1000)
     },
 
-    // 播放其中一首歌
-    addToPlayListAndPlayIt: async function (item) {
+    // 播放其中一首歌  **如果已经在播放列表中就切歌，如果不在播放列表中则添加到播放列表再播放。
+    addToPlayListAndPlayIt (item) {
       const index = this.list.indexOf(item)
       if (index === -1) {
         console.log('没找到')
         return
-      } 
-      const obj = this.theWholeList[index] // 获取这首歌的信息对象
-      // 将当前播放列表转为一个 id 组成的 数组
-      const listID = this.playList.map((item) => {
-        return item.id
-      })
-      const indexInPlayList = listID.indexOf(item.id)
-      if ( indexInPlayList != -1) {
-        console.log('这首歌曲已经在播放列表里了')
-        await this.changePlayIndex(indexInPlayList)   // 改变当前播放音乐的指向
-        this.playOrPause()                   // 播放
-      } else {
-        this.addItemToPlayList(obj)          // 添加到播放列表的末尾
-        console.log('向播放列表添加这首歌曲')
-        await this.changePlayIndex('last')   // 改变当前播放音乐的指向
-        this.playOrPause()                   // 播放
       }
+      const obj = this.theWholeList[index] // 获取这首歌的信息对象
+      this.clickInPageToPlayASong(obj)     // 将歌曲对象传给 clickInPageToPlayASong 播放
     },
 
     // 获取整个歌单
     getTheWholeList () {
       this.theWholeList = this.list.map((item) => {
-        let artist = item.ar[0].name, i = 1
-        while ( i < item.ar.length) {
+        let artist = item.ar[0].name
+        let i = 1
+        while (i < item.ar.length) {
           artist = artist + '/' + item.ar[i].name
           i++
         }
-        return {name:item.name, id: item.id, src:'', artist: artist, cover: item.al.picUrl, duration: formatTime(item.dt/1000)}
+        return { name: item.name, id: item.id, src: '', artist: artist, cover: item.al.picUrl, duration: formatTime(item.dt / 1000) }
       })
-      console.log(this.theWholeList,'这是整理好的整个歌单')
     },
 
     // 播放整个歌单
@@ -91,12 +78,11 @@ export default {
     }
   },
 
-  created() {
-    
+  created () {
+
   },
 
   mounted () {
-    console.log(this.list, '------list')
     this.getTheWholeList()
   }
 }
