@@ -1,7 +1,8 @@
 import * as types from '../mutation-types'
 import api from '@/api'
-import { formatTime } from '@/assets/js/AudioPlayer.js'
+import { formatTime } from '@/assets/js/formatTime.js'
 import playBarControl from '@/assets/js/play_bar_control.js'
+import { parseLyric } from '@/assets/js/parseLyric.js'
 const processBarLength = 493
 // 初始化播放器
 const player = document.createElement('audio')
@@ -107,6 +108,11 @@ const actions = {
     return api.getMusicUrl(id)
   },
 
+  // 获取歌曲的歌词
+  getMusicLyrics ({commit}, id) {
+    return api.getMusicLyrics(id)
+  },
+
   // 将歌曲添加至播放列表
   addItemToPlayList ({ state }, item) {
     state.playList.push(item)
@@ -169,7 +175,7 @@ const actions = {
     })
   },
 
-  // 检查当前音乐的 url
+  // 检查当前音乐的 url 和 lyric
   checkCurrentMusicUrl ({state, getters, dispatch}) {
     return new Promise (async resolve => {
       console.log(getters.currentMusic.src, '----准备检查src')
@@ -183,8 +189,17 @@ const actions = {
         } else {
           state.playList[state.playingIndex].src = music.url
           console.log(state.playList[state.playingIndex].src, 'check 完毕，看看是否获得了')
-          resolve()
         }
+      }
+      console.log('准备检查歌词')
+      const lyric = await dispatch('getMusicLyrics', getters.currentMusic.id)
+      if (lyric === '没有歌词') {
+        console.log('没有歌词')
+        resolve()
+      } else {
+        const lyricParsedObject = parseLyric(lyric)
+        console.log(lyricParsedObject, '解析后的歌词')
+        resolve()
       }
     })
   },

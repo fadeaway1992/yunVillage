@@ -31,5 +31,14 @@ export default{
     return ycaxios.get('music/url?id=' + id).then(res => {
       return { url: res.data.data[0].url, type: res.data.data[0].type }
     })
+  },
+  // 获取歌词
+  getMusicLyrics (id) {
+    return ycaxios.get('lyric?id=' + id).then(res => {
+      if (res.data.nolyric) {
+        return '没有歌词'
+      }
+      return res.data.lrc.lyric
+    })
   }
 }

@@ -11,7 +11,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import Player from './Player'
 import Headtop from './Headtop'
-import { formatTime } from '@/assets/js/AudioPlayer.js'
+import { formatTime } from '@/assets/js/formatTime.js'
 export default {
   data () {
     return {
