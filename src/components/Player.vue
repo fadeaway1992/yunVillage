@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="scroll-bar">
-          <span class="scroll" id="play_list_scroll_bar" hidefocus="true" style="display: block; top: 0px;" :style="{height:playListScrollBarHeight+'px'}"></span>
+          <span class="scroll" id="play_list_scroll_bar" hidefocus="true" style="display: block; top: 0px;" :style="{height: playListScrollBarHeight+'px', top: playListScrollOffsetTop+'px'}"></span>
         </div>
         <div class="mask2"></div>
         <div class="lyric-panel"></div>
@@ -94,7 +94,9 @@
       return {
         showLyricPanel: false,
         // 存储播放列表窗口的 top 值。
-        playListContentOffsetTop: 0
+        playListContentOffsetTop: 0,
+        // 存储播放列表滚动条的 top 值
+        playListScrollOffsetTop: 0
       }
     },
     computed: {
@@ -178,6 +180,23 @@
       playListLength () {
         console.log('播放列表曲目改变')
         this.getPlayListScrollBarHeight()
+      },
+
+      // 当播放列表 top 值改变时更新滚动条高度
+      playListContentOffsetTop (value) {
+        console.log('准备更新滚动条高度')
+        const playListContent = document.getElementById('play_list_content')
+        const minTop = playListContent.parentNode.offsetHeight - playListContent.offsetHeight // minTop存储了窗口 top 值的最小值
+        const theScale = value / minTop
+        const scrollBarParentHeight = document.getElementById('play_list_scroll_bar').parentNode.offsetHeight
+        const maxTop = scrollBarParentHeight - this.playListScrollBarHeight
+        this.playListScrollOffsetTop = maxTop * theScale
+        if (this.playListScrollOffsetTop > maxTop ) {
+          this.playListScrollOffsetTop = maxTop
+        } else if (this.playListScrollOffsetTop < 0) {
+          this.playListScrollOffsetTop = 0
+        }
+        console.log(this.playListScrollOffsetTop, '已经获取新的滚动条 top 值')
       }
     },
 
