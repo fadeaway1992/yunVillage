@@ -199,7 +199,9 @@
     },
 
     created () {
+      // 激活播放钩子函数
       this.addPlayHooks()
+
       this.$nextTick(function () {
         // 添加播放拖拽功能
         this.activateDragPoint()
@@ -227,6 +229,49 @@
               this.playListContentOffsetTop = minTop
             }
           }
+        }
+
+        // 给播放列表滚动条添加拖拽功能
+        const self = this
+        const playListScrollBar =  document.getElementById('play_list_scroll_bar')
+        const scrollRange = playListScrollBar.parentNode
+        playListScrollBar.onmousedown = (e) => {
+          e = e || window.event
+          const disToTop = e.offsetY
+
+          const mouseMove = (e) => {
+            e.preventDefault()
+            const minTop = 0
+            const maxTop = scrollRange.offsetHeight - playListScrollBar.offsetHeight
+            // 更新滚动条 top 值
+            let Top =  e.clientY - scrollRange.getBoundingClientRect().top - disToTop
+            if (Top < minTop) {
+              Top = minTop
+            } else if (Top > maxTop) {
+              Top = maxTop
+            }
+            playListScrollBar.style.top = Top + 'px'
+            // 更新播放列表 top 值
+            const theScale = playListScrollBar.offsetTop / maxTop
+            const playListMaxTop = playListContent.offsetHeight - playListContent.parentNode.offsetHeight
+            let playListTop = playListMaxTop * theScale
+            if (playListTop > playListMaxTop) {
+              playListTop = playListMaxTop
+            } else if (playListTop < 0) {
+              playListTop = 0
+            }
+            playListContent.style.top = (-playListTop) + 'px'
+          }
+
+          const mouseUp = () => {
+            document.removeEventListener('mouseup', mouseUp)
+            document.removeEventListener('mousemove', mouseMove)
+            // 更新 data 中保存播放列表 top 值的状态
+            self.playListContentOffsetTop = playListContent.offsetTop
+          }
+
+          document.addEventListener('mousemove', mouseMove)
+          document.addEventListener('mouseup', mouseUp)
         }
       })
     },
@@ -793,7 +838,7 @@
         top: 0;
         z-index: 3;
         width: 420px;
-        height: 250px;
+        height: 260px;
         background: #121212;
         opacity: .5;
       }
