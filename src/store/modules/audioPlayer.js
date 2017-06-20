@@ -21,7 +21,9 @@ const state = {
   // 保存播放条长度
   playedLength: '0px',
   // 保存歌曲循环方式
-  loopStyle: 'listLoop'  // singleLoop, listLoop
+  loopStyle: 'listLoop',  // singleLoop, listLoop
+  // 保存播放列表滚动条高度
+  playListScrollBarHeight: ''
 }
 
 const getters = {
@@ -301,6 +303,21 @@ const actions = {
       case 'shuffle':
         break
     }
+  },
+
+  // 获取播放列表面板滚动条的高度
+  getPlayListScrollBarHeight ({ state }) {
+    console.log('准备获取播放列表滚动条高度')
+    const playListContentHeight = document.getElementById('play_list_content').offsetHeight
+    const contentParentHeight = document.getElementById('play_list_content').parentNode.offsetHeight
+    const scrollParentHeight = document.getElementById('play_list_scroll_bar').parentNode.offsetHeight
+    const theScale = contentParentHeight / playListContentHeight
+    if (theScale >= 1) {
+      state.playListScrollBarHeight = 0
+    } else {
+      state.playListScrollBarHeight = scrollParentHeight * theScale
+    }
+    console.log(state.playListScrollBarHeight, '--已经获取到播放列表滚动条高度')
   }
 }
 

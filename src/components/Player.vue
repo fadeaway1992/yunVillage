@@ -63,7 +63,7 @@
         <img class="img-bg" src="http://music.163.com/api/img/blur/619025046449427" style="top: -360px;">
         <div class="mask"></div>
         <div class="list-content">
-          <ul class="play-list"  id="play_list_content">
+          <ul class="play-list"  id="play_list_content" :style="{top:playListContentOffsetTop+'px'}">
             <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList" @click="clickInPageToPlayASong(item)">
               <div class="col col-1"><div class="play-icn"></div></div>
               <div class="col col-2 text-overflow">{{item.name}}</div>
@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="scroll-bar">
-          <span class="scroll" hidefocus="true" style="height: 48.2857px; display: block; top: 0px;"></span>
+          <span class="scroll" id="play_list_scroll_bar" hidefocus="true" style="display: block; top: 0px;" :style="{height:playListScrollBarHeight+'px'}"></span>
         </div>
         <div class="mask2"></div>
         <div class="lyric-panel"></div>
@@ -92,7 +92,9 @@
   export default {
     data () {
       return {
-        showLyricPanel: false
+        showLyricPanel: false,
+        // 存储播放列表窗口的 top 值。
+        playListContentOffsetTop: 0
       }
     },
     computed: {
@@ -103,7 +105,8 @@
         'secCounter',
         'playedLength',
         'bufferedLength',
-        'loopStyle'
+        'loopStyle',
+        'playListScrollBarHeight'
       ]),
       mode () {
         return {
@@ -111,8 +114,12 @@
           'icn-one': this.loopStyle === 'singleLoop',
           'icn-shuffle': this.loopStyle === 'shuffle'
         }
+      },
+      playListLength () {
+        return this.playList.length
       }
     },
+
     methods: {
       ...mapActions([
         // 点击播放按钮时触发  "播放／暂停"
@@ -130,7 +137,9 @@
         // 播放页面中的歌曲
         'clickInPageToPlayASong',
         // 从播放列表中删除歌曲
-        'removeItemFromPlayList'
+        'removeItemFromPlayList',
+        // 获取播放列表滚动条的高度
+        'getPlayListScrollBarHeight'
       ]),
 
       checkToNext: async function () {
@@ -146,6 +155,13 @@
       // 显示或隐藏歌词面板
       toggleLyricPanel () {
         this.showLyricPanel = !this.showLyricPanel
+        if (this.showLyricPanel === true) {
+          // 获取播放列表滚动条高度
+          const self = this
+          setTimeout(function(){
+            self.getPlayListScrollBarHeight()
+          }, 500)
+        }
       }
     },
 
@@ -156,6 +172,12 @@
         }
         if (val === this.currentMusic.duration) { return }
         this.getPlayedLength()
+      },
+
+      // 每次播放列表曲目有变化时重新获取滚动条高度
+      playListLength () {
+        console.log('播放列表曲目改变')
+        this.getPlayListScrollBarHeight()
       }
     },
 
@@ -164,23 +186,22 @@
       this.$nextTick(function () {
         // 添加播放拖拽功能
         this.activateDragPoint()
+
         // 自定义播放列表滚动条
         const playListContent = document.getElementById('play_list_content')
-        console.log(playListContent, '看看有没有拿到元素')
         playListContent.onmousewheel = (e) => {
           e = e || window.event
           e.preventDefault()
           if (e.wheelDelta > 0) {
-            console.log(playListContent.offsetTop, 'top值')
-            playListContent.style.top = playListContent.offsetTop + 10 +'px'
-            if (playListContent.offsetTop > 0) {
-              playListContent.style.top = '0px'
+            this.playListContentOffsetTop += 10
+            if (this.playListContentOffsetTop > 0) {
+              this.playListContentOffsetTop = 0
             }
           } else {
-            playListContent.style.top = playListContent.offsetTop - 10 +'px'
+            this.playListContentOffsetTop -= 10
             const minTop = playListContent.parentNode.offsetHeight - playListContent.offsetHeight 
-            if (playListContent.offsetTop < minTop) {
-              playListContent.style.top = minTop + 'px'
+            if (this.playListContentOffsetTop < minTop) {
+              this.playListContentOffsetTop = minTop
             }
           }
         }
