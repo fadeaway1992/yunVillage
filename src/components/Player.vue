@@ -184,7 +184,6 @@
 
       // 当播放列表 top 值改变时更新滚动条高度
       playListContentOffsetTop (value) {
-        console.log('准备更新滚动条高度')
         const playListContent = document.getElementById('play_list_content')
         const minTop = playListContent.parentNode.offsetHeight - playListContent.offsetHeight // minTop存储了窗口 top 值的最小值
         const theScale = value / minTop
@@ -196,7 +195,6 @@
         } else if (this.playListScrollOffsetTop < 0) {
           this.playListScrollOffsetTop = 0
         }
-        console.log(this.playListScrollOffsetTop, '已经获取新的滚动条 top 值')
       }
     },
 
@@ -211,13 +209,19 @@
         playListContent.onmousewheel = (e) => {
           e = e || window.event
           e.preventDefault()
+          let velocity = 1
+          if (e.wheelDelta % 120 === 0) {
+            velocity = Math.abs(e.wheelDelta / 12)  // 给鼠标滚动添加力度
+          } else {
+            velocity = Math.abs(e.wheelDelta / 30)  // 给触摸板滚动添加力度
+          }
           if (e.wheelDelta > 0) {
-            this.playListContentOffsetTop += 10
+            this.playListContentOffsetTop += 10 * velocity
             if (this.playListContentOffsetTop > 0) {
               this.playListContentOffsetTop = 0
             }
           } else {
-            this.playListContentOffsetTop -= 10
+            this.playListContentOffsetTop -= 10 * velocity
             const minTop = playListContent.parentNode.offsetHeight - playListContent.offsetHeight 
             if (this.playListContentOffsetTop < minTop) {
               this.playListContentOffsetTop = minTop
