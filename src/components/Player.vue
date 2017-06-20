@@ -63,7 +63,7 @@
         <img class="img-bg" src="http://music.163.com/api/img/blur/619025046449427" style="top: -360px;">
         <div class="mask"></div>
         <div class="list-content">
-          <ul class="play-list">
+          <ul class="play-list"  id="play_list_content">
             <li :class="{'now':item.id===currentMusic.id}" v-for="item in playList" @click="clickInPageToPlayASong(item)">
               <div class="col col-1"><div class="play-icn"></div></div>
               <div class="col col-2 text-overflow">{{item.name}}</div>
@@ -164,6 +164,26 @@
       this.$nextTick(function () {
         // 添加播放拖拽功能
         this.activateDragPoint()
+        // 自定义播放列表滚动条
+        const playListContent = document.getElementById('play_list_content')
+        console.log(playListContent, '看看有没有拿到元素')
+        playListContent.onmousewheel = (e) => {
+          e = e || window.event
+          e.preventDefault()
+          if (e.wheelDelta > 0) {
+            console.log(playListContent.offsetTop, 'top值')
+            playListContent.style.top = playListContent.offsetTop + 10 +'px'
+            if (playListContent.offsetTop > 0) {
+              playListContent.style.top = '0px'
+            }
+          } else {
+            playListContent.style.top = playListContent.offsetTop - 10 +'px'
+            const minTop = playListContent.parentNode.offsetHeight - playListContent.offsetHeight 
+            if (playListContent.offsetTop < minTop) {
+              playListContent.style.top = minTop + 'px'
+            }
+          }
+        }
       })
     },
 
@@ -631,6 +651,7 @@
         .play-list{
           color: #ccc;
           overflow: hidden;
+          position: relative;
           li{
             float: left;
             width: 100%;
