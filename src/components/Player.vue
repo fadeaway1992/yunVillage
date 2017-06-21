@@ -80,7 +80,7 @@
         <div class="mask2"></div>
         <div class="lyric-panel">
           <ul class="liric-list" id="lyric_list">
-            <li v-for="item in currentMusic.lyricArr" :data-time="item.time">{{item.text}}</li>
+            <li v-for="(item, index) in lyricArr" :data-time="item.time" :class="{'now':index===currentLyricIndex}">{{item.text}}</li>
           </ul>
         </div>
         <div class="lyric-scroll-bar">
@@ -112,7 +112,9 @@
         'playedLength',
         'bufferedLength',
         'loopStyle',
-        'playListScrollBarHeight'
+        'playListScrollBarHeight',
+        'lyricArr',
+        'currentLyricIndex'
       ]),
       mode () {
         return {

@@ -24,7 +24,11 @@ const state = {
   // 保存歌曲循环方式
   loopStyle: 'listLoop',  // singleLoop, listLoop
   // 保存播放列表滚动条高度
-  playListScrollBarHeight: ''
+  playListScrollBarHeight: '',
+  // 保存当前音乐的歌词数组
+  lyricArr: [],
+  // 保存当前歌词的序列
+  currentLyricIndex: 0
 }
 
 const getters = {
@@ -99,6 +103,7 @@ const actions = {
     default:
       break
     }
+    state.player.currentLyricIndex = 0   // 重置歌词序列
     window.counter = undefined
     window.bufferCount = undefined
   },
@@ -179,9 +184,7 @@ const actions = {
   checkCurrentMusicUrl ({state, getters, dispatch}) {
     return new Promise (async resolve => {
       console.log(getters.currentMusic.src, '----准备检查src')
-      if (getters.currentMusic.src){
-        resolve()
-      } else {
+      if (!getters.currentMusic.src){
         const music = await dispatch('getMusicUrl',getters.currentMusic.id)
         if (music.type != 'mp3') {
           console.log('it is not a mp3 file!')
@@ -198,13 +201,11 @@ const actions = {
         resolve()
       } else {
         const lyricParsedObject = parseLyric(lyric)
-        console.log(lyricParsedObject, '解析后的歌词')
         let lyricArr = []
         for (let i in lyricParsedObject) {
           lyricArr.push({time:i, text:lyricParsedObject[i]})
         }
-        state.playList[state.playingIndex].lyricArr = lyricArr
-        console.log(lyricArr)
+        state.lyricArr = lyricArr
         resolve()
       }
     })
@@ -294,6 +295,21 @@ const actions = {
     state.player.onplaying = () => {
       console.log('onplaying, 缓冲结束，开始播放')
       document.getElementById('loading').classList.remove('loading')
+    }
+    state.player.ontimeupdate = () => {
+      // 更新歌词
+      if (state.player.currentTime > state.lyricArr[state.currentLyricIndex + 1].time) {
+        state.currentLyricIndex++ 
+      }
+    },
+    state.player.onseeked = () => {
+      for (let i = 0; i < state.lyricArr.length; i++) {
+        if (state.player.currentTime >= state.lyricArr[i].time) {
+          if (state.player.currentTime < state.lyricArr[i+1].time) {
+            state.currentLyricIndex = i
+          }
+        }
+      }
     }
   },
 

@@ -12,5 +12,7 @@ export const playedLength = state => state.audioPlayer.playedLength
 export const bufferedLength = state => state.audioPlayer.bufferedLength
 export const loopStyle = state => state.audioPlayer.loopStyle
 export const playListScrollBarHeight = state => state.audioPlayer.playListScrollBarHeight
+export const lyricArr = state => state.audioPlayer.lyricArr
+export const currentLyricIndex = state => state.audioPlayer.currentLyricIndex
 
 
