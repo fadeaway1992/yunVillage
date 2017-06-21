@@ -1,22 +1,29 @@
 <template>
-  <div>
-    <div @click="playTheWholeList">{{listName}}</div>
-    <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
-      {{item.name}}      {{formattedTime(item.dt)}}
+  <div class="playlist-page">
+    <div class="left-side">
+      <PlayListInfo :listDetail="listDetail"></PlayListInfo>
+      <div @click="playTheWholeList">{{listName}}</div>
+      <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
+        {{item.name}}      {{formattedTime(item.dt)}}
+      </div>
     </div>
+    <div class="right-side"></div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Player from './Player'
-import Headtop from './Headtop'
 import { formatTime } from '@/assets/js/formatTime.js'
+import PlayListInfo from './PlayListInfo.vue'
 export default {
   data () {
     return {
       theWholeList: {}
     }
+  },
+
+  components: {
+    PlayListInfo
   },
 
   computed: {
@@ -26,11 +33,6 @@ export default {
       'list',
       'playList'
     ])
-  },
-
-  components: {
-    Player,
-    Headtop
   },
 
   methods: {
@@ -89,5 +91,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.playlist-page {
+  background: url(../assets/img/wrap4.png) repeat-y center 0;
+  width: 980px;
+  min-height: 700px;
+  margin: 0 auto;
+  border: 1px solid #d3d3d3;
+  border-width: 0 1px;
+  display: flex;
+  .left-side {
+    width: 709px;
+    padding: 47px 30px 40px 39px;
+    box-sizing: border-box;
+  }
+  .right-side {
+    width: 270px;
+  }
+}
 </style>
