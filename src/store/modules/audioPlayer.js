@@ -199,6 +199,12 @@ const actions = {
       } else {
         const lyricParsedObject = parseLyric(lyric)
         console.log(lyricParsedObject, '解析后的歌词')
+        let lyricArr = []
+        for (let i in lyricParsedObject) {
+          lyricArr.push({time:i, text:lyricParsedObject[i]})
+        }
+        state.playList[state.playingIndex].lyricArr = lyricArr
+        console.log(lyricArr)
         resolve()
       }
     })

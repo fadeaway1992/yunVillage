@@ -78,7 +78,11 @@
           <span class="scroll" id="play_list_scroll_bar" hidefocus="true" style="display: block; top: 0px;" :style="{height: playListScrollBarHeight+'px', top: playListScrollOffsetTop+'px'}"></span>
         </div>
         <div class="mask2"></div>
-        <div class="lyric-panel"></div>
+        <div class="lyric-panel">
+          <ul class="liric-list" id="lyric_list">
+            <li v-for="item in currentMusic.lyricArr" :data-time="item.time">{{item.text}}</li>
+          </ul>
+        </div>
         <div class="lyric-scroll-bar">
           <span class="scroll-1" hidefocus="true" style="height: 32.3523px; display: block; top: 0px;"></span>
         </div>
@@ -851,6 +855,22 @@
         height: 219px;
         width: 354px;
         overflow: hidden;
+        .liric-list{
+          position:relative;
+          li{
+            color: #989898;
+            word-wrap: break-word;
+            text-align: center;
+            line-height: 32px;
+            height: auto;
+            min-height: 32px;
+            transition: color 0.7s linear;
+          }
+          .now{
+            color: #fff;
+            font-size: 14px;
+          }
+        }
       }
       .lyric-scroll-bar{
         position: absolute;
