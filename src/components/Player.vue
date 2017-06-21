@@ -79,7 +79,7 @@
         </div>
         <div class="mask2"></div>
         <div class="lyric-panel">
-          <ul class="liric-list" id="lyric_list">
+          <ul class="liric-list" id="lyric_list" :style="{top:liricListOffsetTop+'px'}">
             <li v-for="(item, index) in lyricArr" :data-time="item.time" :class="{'now':index===currentLyricIndex}">{{item.text}}</li>
           </ul>
         </div>
@@ -100,7 +100,9 @@
         // 存储播放列表窗口的 top 值。
         playListContentOffsetTop: 0,
         // 存储播放列表滚动条的 top 值
-        playListScrollOffsetTop: 0
+        playListScrollOffsetTop: 0,
+        // 存储歌词列表偏移 top 值
+        liricListOffsetTop: 0
       }
     },
     computed: {
@@ -188,6 +190,17 @@
         this.$nextTick(() => {
           this.getPlayListScrollBarHeight()
         })
+      },
+
+      // 歌词序列更新后相应更新歌词列表 top 值
+      currentLyricIndex (newVal, oldVal) {
+        if (newVal === 0) {
+          this.liricListOffsetTop = 0
+        } else {
+          const lastLyric = document.getElementById('lyric_list').childNodes[oldVal]
+          this.liricListOffsetTop -= lastLyric.offsetHeight
+          console.log(this.liricListOffsetTop, '歌词偏移')
+        }
       },
 
       // 当播放列表 top 值改变时更新滚动条高度
@@ -845,7 +858,7 @@
         left: 560px;
         top: 0;
         z-index: 3;
-        width: 420px;
+        width: 424px;
         height: 260px;
         background: #121212;
         opacity: .5;
@@ -861,6 +874,8 @@
         overflow: hidden;
         .liric-list{
           position:relative;
+          padding-top: 70px;
+          transition: top 0.7s linear;
           li{
             color: #989898;
             word-wrap: break-word;
@@ -877,6 +892,7 @@
         }
       }
       .lyric-scroll-bar{
+        display:none;
         position: absolute;
         right: 2px;
         top: -1px;

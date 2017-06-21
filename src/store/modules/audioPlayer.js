@@ -103,7 +103,7 @@ const actions = {
     default:
       break
     }
-    state.player.currentLyricIndex = 0   // 重置歌词序列
+    state.currentLyricIndex = 0   // 重置歌词序列
     window.counter = undefined
     window.bufferCount = undefined
   },
