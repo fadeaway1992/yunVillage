@@ -346,6 +346,7 @@ const actions = {
   getPlayListScrollBarHeight ({ state }) {
     console.log('准备获取播放列表滚动条高度')
     const playListContentHeight = document.getElementById('play_list_content').offsetHeight
+    console.log(state.playList, '看看列表改变了没', playListContentHeight, 'playListContentHeight')
     const contentParentHeight = document.getElementById('play_list_content').parentNode.offsetHeight
     const scrollParentHeight = document.getElementById('play_list_scroll_bar').parentNode.offsetHeight
     const theScale = contentParentHeight / playListContentHeight

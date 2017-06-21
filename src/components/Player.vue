@@ -185,7 +185,9 @@
       // 每次播放列表曲目有变化时重新获取滚动条高度
       playListLength () {
         console.log('播放列表曲目改变')
-        this.getPlayListScrollBarHeight()
+        this.$nextTick(() => {
+          this.getPlayListScrollBarHeight()
+        })
       },
 
       // 当播放列表 top 值改变时更新滚动条高度
