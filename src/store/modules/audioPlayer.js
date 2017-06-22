@@ -26,7 +26,7 @@ const state = {
   // 保存播放列表滚动条高度
   playListScrollBarHeight: '',
   // 保存当前音乐的歌词数组
-  lyricArr: [],
+  lyricArr: [{time:9999, text:'无歌词'}],
   // 保存当前歌词的序列
   currentLyricIndex: 0
 }

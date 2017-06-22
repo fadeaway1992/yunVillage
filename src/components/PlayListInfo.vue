@@ -51,9 +51,7 @@
         showDescription: false
       }
     },
-    props: {
-      listDetail: {}
-    },
+    props: ['listDetail'],
     methods: {
       formatDate (stamp) {
         return stampsToDate(stamp)
