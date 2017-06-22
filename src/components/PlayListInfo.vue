@@ -27,10 +27,14 @@
         <a href="javascript:;" class="download"><i>下载</i></a>
         <a href="javascript:;" class="comment"><i>({{listDetail.commentCount}})</i></a>
       </div>
-      <div class="tags"></div>
-      <div class="description"></div>
+      <div class="tags">
+        <b>标签：</b>
+        <a href="javascript:;" class="tag-item" v-for="item in listDetail.tags"><i>{{item}}</i></a>
+      </div>
+      <p class="description" :class="{'spread':showDescription}"><b>介绍：</b>{{listDetail.description}}</p>
       <div class="show-all">
-        <span class="des-spread">展开<i class="icn-arrow"></i></span>
+        <span class="des-spread" @click="toggleDescription" v-if="showDescription===false">展开<i class="icn-arrow"></i></span>
+        <span class="des-spread" @click="toggleDescription" v-else>收起<i class="icn-arrow-up"></i></span>
       </div>
     </div>
   </div>
@@ -43,7 +47,8 @@
   export default {
     data () {
       return {
-        subscribedCount: this.listDetail.subscribedCount
+        subscribedCount: this.listDetail.subscribedCount,
+        showDescription: false
       }
     },
     props: {
@@ -59,6 +64,10 @@
         } else {
           return this.subscribedCount
         }
+      },
+      toggleDescription () {
+        console.log('toggle')
+        this.showDescription = !this.showDescription
       }
     },
     mounted () {
@@ -148,6 +157,7 @@
       }
     }
     .operations {
+      overflow: hidden;
       margin-bottom: 25px;
       .play-list {
         &:hover {
@@ -251,14 +261,68 @@
       }
     }
     .tags {
+      overflow: hidden;
       margin: 25px 0 5px;
       line-height: 22px;
+      b {
+        float: left;
+        font-weight: normal;
+        color: #666;
+      }
+      .tag-item {
+        float: left;
+        cursor: default;
+        margin: 0px 10px 3px 0;
+        padding: 0 10px 0 0;
+        text-shadow: 0 1px #fdfdfd;
+        background: url(../assets/img/button2.png) no-repeat;
+        background-position: right -27px;
+        color: #777;
+        height: 22px;
+        i {
+          float: left;
+          margin-right: -2px;
+          height: 22px;
+          padding: 0 3px 0 13px;
+          background: url(../assets/img/button2.png) no-repeat;
+          background-position: 0 0;
+        }
+      }
     }
     .description {
       margin-top: 4px;
       line-height: 18px;
       color: #666;
+      white-space: pre-wrap;
+      height: 54px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      b {
+        font-weight: normal;
+        color: #666;
+      }
     }
-    .show-all {}
+    .spread{
+      height: auto;
+    }
+    .show-all {
+      .des-spread {
+        cursor: pointer;
+        float: right;
+        color: #0c73c2;
+        .icn-arrow {
+          display: inline-block;
+          vertical-align: middle;
+          width: 11px;
+          height: 8px;
+          background: url(../assets/img/icon.png) no-repeat;
+          background-position: -65px -520px;
+        }
+        .icn-arrow-up {
+          @extend .icn-arrow;
+          background-position: -45px -520px;
+        }
+      }
+    }
   }
 </style>
