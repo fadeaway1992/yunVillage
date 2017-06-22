@@ -142,7 +142,6 @@ const actions = {
   checkToNewList: async function ({ state, dispatch }, newList) {
     state.playList = newList
     dispatch('changeLoopStyle', 'list')
-    state.loopStyle = 'listLoop'
     await dispatch('changePlayIndex', 'first')
     dispatch('playOrPause')
   },
@@ -198,6 +197,7 @@ const actions = {
       const lyric = await dispatch('getMusicLyrics', getters.currentMusic.id)
       if (lyric === '没有歌词') {
         console.log('没有歌词')
+        state.lyricArr = [{time:9999, text:'无歌词'}]
         resolve()
       } else {
         const lyricParsedObject = parseLyric(lyric)
@@ -298,6 +298,7 @@ const actions = {
     }
     state.player.ontimeupdate = () => {
       // 更新歌词
+      if(!state.lyricArr[state.currentLyricIndex + 1]) return
       if (state.player.currentTime > state.lyricArr[state.currentLyricIndex + 1].time) {
         state.currentLyricIndex++ 
       }
@@ -346,7 +347,6 @@ const actions = {
   getPlayListScrollBarHeight ({ state }) {
     console.log('准备获取播放列表滚动条高度')
     const playListContentHeight = document.getElementById('play_list_content').offsetHeight
-    console.log(state.playList, '看看列表改变了没', playListContentHeight, 'playListContentHeight')
     const contentParentHeight = document.getElementById('play_list_content').parentNode.offsetHeight
     const scrollParentHeight = document.getElementById('play_list_scroll_bar').parentNode.offsetHeight
     const theScale = contentParentHeight / playListContentHeight

@@ -20,7 +20,7 @@
         <span class="create-time">{{formatDate(listDetail.createTime)}}&nbsp;创建</span>
       </div>
       <div class="operations">
-        <a href="javascript:;" class="play-list" hidefocus="true"><i><em class="play"></em>播放</i></a>
+        <a href="javascript:;" class="play-list" hidefocus="true" @click="$emit('play')"><i><em class="play"></em>播放</i></a>
         <a href="javascript:;" class="add" hidefocus="true"></a>
         <a href="javascript:;" class="subscribe"><i class="icon-opteration">({{computedSubscribeCount()}})</i></a>
         <a href="javascript:;" class="share"><i>({{listDetail.shareCount}})</i></a>

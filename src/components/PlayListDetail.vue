@@ -1,11 +1,11 @@
 <template>
   <div class="playlist-page">
     <div class="left-side">
-      <PlayListInfo :listDetail="listDetail"></PlayListInfo>
-      <div @click="playTheWholeList">{{listName}}</div>
-      <div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
+      <PlayListInfo :listDetail="listDetail" @play="playTheWholeList"></PlayListInfo>
+      <ListItem></ListItem>
+      <!--<div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
         {{item.name}}      {{formattedTime(item.dt)}}
-      </div>
+      </div>-->
     </div>
     <div class="right-side"></div>
   </div>
@@ -15,6 +15,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { formatTime } from '@/assets/js/formatTime.js'
 import PlayListInfo from './PlayListInfo.vue'
+import ListItem from './ListItem.vue'
 export default {
   data () {
     return {
@@ -23,7 +24,8 @@ export default {
   },
 
   components: {
-    PlayListInfo
+    PlayListInfo,
+    ListItem
   },
 
   computed: {
@@ -44,11 +46,6 @@ export default {
       'checkToNewList',
       'clickInPageToPlayASong'
     ]),
-
-    // 获取歌曲时长
-    formattedTime (dt) {
-      return formatTime(dt / 1000)
-    },
 
     // 播放其中一首歌  **如果已经在播放列表中就切歌，如果不在播放列表中则添加到播放列表再播放。
     addToPlayListAndPlayIt (item) {
