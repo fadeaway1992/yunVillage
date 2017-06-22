@@ -2,10 +2,7 @@
   <div class="playlist-page">
     <div class="left-side">
       <PlayListInfo :listDetail="listDetail" @play="playTheWholeList"></PlayListInfo>
-      <ListItem></ListItem>
-      <!--<div v-for="item in list" @click="addToPlayListAndPlayIt(item)">
-        {{item.name}}      {{formattedTime(item.dt)}}
-      </div>-->
+      <ListItem @addAndPlay="addToPlayListAndPlayIt"></ListItem>
     </div>
     <div class="right-side"></div>
   </div>

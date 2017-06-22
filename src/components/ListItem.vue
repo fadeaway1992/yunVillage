@@ -15,6 +15,24 @@
         <div class="head-artist"><div class="content">歌手</div></div>
         <div class="head-album"><div class="content">专辑</div></div>
       </div>
+      <ul class="table-body">
+        <li class="music-item" v-for="(item, index) in list" :class="{'odd': index%2===0}">
+          <div class="index">
+            <div class="wrap">
+              <span class="play-btn" :class="{'now':item.id === currentMusic.id}" @click="$emit('addAndPlay', item)"></span>
+              <span class="num">{{index + 1}}</span>
+            </div>
+          </div>
+          <div class="name">
+            <a class="name-text text-overflow">{{item.name}}</a>
+          </div>
+          <div class="duration">
+            <span>{{formattedTime(item.dt)}}</span>
+          </div>
+          <div class="artist"><a class="text-overflow">{{getArtist(item)}}</a></div>
+          <div class="album"><a class="text-overflow">{{item.al.name}}</a></div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -27,6 +45,7 @@ export default {
   computed: {
     ...mapGetters([
       'listDetail',
+      'currentMusic',
       'list'
     ])
   },
@@ -35,6 +54,15 @@ export default {
     // 获取歌曲时长
     formattedTime (dt) {
       return formatTime(dt / 1000)
+    },
+    getArtist (item) {
+      let artist = item.ar[0].name
+      let i = 1
+      while (i < item.ar.length) {
+        artist = artist + '/' + item.ar[i].name
+        i++
+      }
+      return artist
     }
   },
 
@@ -110,6 +138,69 @@ export default {
       }
       .head-album {
         width: 128px;
+      }
+    }
+    .table-body {
+      .music-item > div {
+        padding: 6px 10px;
+        line-height: 18px;
+      }
+      .odd {
+          background-color: #f7f7f7;
+        }
+      .music-item {
+        display: flex;
+        .index {
+          width: auto;
+          .wrap {
+           width:54px;
+            .play-btn {
+              float: right;
+              width: 17px;
+              height: 17px;
+              cursor: pointer;
+              background: url(../assets/img/table.png) no-repeat;
+              background-position: 0 -103px;
+              &:hover {
+                background-position: 0 -128px;
+              }
+            }
+            .now {
+              background-position: -20px -128px;
+            }
+            .num {
+              margin-left: 5px;
+              color: #999;
+            }
+          }
+        }
+        .name {
+          width: 217px;
+          .name-text {
+            max-width: 195px;
+            display: block;
+          }
+        }
+        .duration {
+          width: 91px;
+          span {
+            color: #666;
+          }
+        }
+        .artist {
+          width: 69px;
+          a {
+            max-width: 69px;
+            display: block;
+          }
+        }
+        .album {
+          width: 107px;
+          a {
+            max-width: 107px;
+            display: block;
+          }
+        }
       }
     }
   }
