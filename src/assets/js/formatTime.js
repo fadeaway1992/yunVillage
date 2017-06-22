@@ -17,3 +17,12 @@ export const formatTime = function (second) {
 
   return Min + ':' + Sec
 }
+
+// 将时间戳转换为日期 ====> 2017-05-09
+export const stampsToDate = (stamp) => {
+  const date = new Date(stamp)
+  const year = date.getFullYear()
+  const month = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+  const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+  return `${year}-${month}-${day}`
+}

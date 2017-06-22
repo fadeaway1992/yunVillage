@@ -31,3 +31,9 @@ input:focus{
   white-space: nowrap;
   overflow: hidden;
 }
+
+.text-brk {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
