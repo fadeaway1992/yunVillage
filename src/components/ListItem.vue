@@ -7,6 +7,15 @@
         <span>播放：<strong class="count">{{listDetail.playCount}}</strong> 次</span>
       </div>
     </div>
+    <div class="table">
+      <div class="table-head">
+        <div class="head-coner"></div>
+        <div class="head-title"><div class="content">歌曲标题</div></div>
+        <div class="head-duration"><div class="content">时长</div></div>
+        <div class="head-artist"><div class="content">歌手</div></div>
+        <div class="head-album"><div class="content">专辑</div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,6 +73,43 @@ export default {
             color: #c20c0c;
           }
         }
+      }
+    }
+    .table {
+      border: 1px solid #d9d9d9;
+    }
+    .table-head {
+      height: 39px;
+      display: flex;
+      div {
+        text-align: left;
+        font-weight: normal;
+        color: #666;
+        height: 39px;
+        background-color: #f7f7f7;
+        background: url(../assets/img/table.png) repeat-x 0 0;
+        .content {
+          height: 18px;
+          line-height: 18px;
+          padding: 8px 10px;
+          background: url(../assets/img/table.png) no-repeat;
+          background-position: 0 -56px;
+        }
+      }
+      .head-coner {
+        width: 75px;
+      }
+      .head-title {
+        width: 237px;
+      }
+      .head-duration {
+        width: 111px;
+      }
+      .head-artist {
+        width: 89px;
+      }
+      .head-album {
+        width: 128px;
       }
     }
   }
