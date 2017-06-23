@@ -75,7 +75,7 @@
           </ul>
         </div>
         <div class="scroll-bar">
-          <span class="scroll" id="play_list_scroll_bar" hidefocus="true" style="display: block; top: 0px;" :style="{height: playListScrollBarHeight+'px', top: playListScrollOffsetTop+'px'}"></span>
+          <span class="scroll" id="play_list_scroll_bar" :class="{'has-border':playListScrollBarHeight}" hidefocus="true" style="display: block; top: 0px;" :style="{height: playListScrollBarHeight+'px', top: playListScrollOffsetTop+'px'}"></span>
         </div>
         <div class="mask2"></div>
         <div class="lyric-panel">
@@ -314,7 +314,6 @@
     height: 100px;
     cursor: pointer;
     background: #868686;
-    border: 1px solid #a6a6a6;
     opacity: .8;
   }
   .play-btn{
@@ -852,6 +851,9 @@
         opacity: .5;
         .scroll{
           @include scroll;
+        }
+        .has-border {
+          border: 1px solid #a6a6a6;
         }
       }
       .mask2{
