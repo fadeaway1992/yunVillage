@@ -188,7 +188,7 @@
       playListLength () {
         console.log('播放列表曲目改变')
         this.$nextTick(() => {
-          this.getPlayListScrollBarHeight()
+          this.getPlayListScrollBarHeight()  // 播放列表内容改变时，比如由100条变成1条，如果本来已经滚动到中间，这时应该清楚滚动的距离。
           this.playListContentOffsetTop = 0
         })
       },
@@ -231,6 +231,7 @@
         // 自定义播放列表滚动条
         const playListContent = document.getElementById('play_list_content')
         playListContent.onmousewheel = (e) => {
+          if (this.playListScrollBarHeight===0) return  // 如果当前滚动条高度为零，及播放列表高度未超出窗口高度，此时应不能滚动。
           e = e || window.event
           e.preventDefault()
           let velocity = 1
