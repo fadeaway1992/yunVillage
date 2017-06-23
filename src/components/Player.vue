@@ -184,11 +184,12 @@
         this.getPlayedLength()
       },
 
-      // 每次播放列表曲目有变化时重新获取滚动条高度
+      // 每次播放列表曲目有变化时重新获取滚动条高度  以及重置播放列表 top 值
       playListLength () {
         console.log('播放列表曲目改变')
         this.$nextTick(() => {
           this.getPlayListScrollBarHeight()
+          this.playListContentOffsetTop = 0
         })
       },
 
