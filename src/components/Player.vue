@@ -165,27 +165,37 @@
         this.playOrPause()
       },
 
+      // 获取最新歌词列表 top 值
+      getLyricOffsetTop () {
+        const lyricItem = document.getElementById('lyric_list').childNodes
+        let Top = 0
+        for (let i = 0; i < this.currentLyricIndex; i++ ) {
+          Top -= lyricItem[i].offsetHeight
+        }
+        this.liricListOffsetTop = Top
+      },
+
       // 显示或隐藏歌词面板
       toggleLyricPanel () {
         this.showLyricPanel = !this.showLyricPanel
         if (this.showLyricPanel === true) {
           // 获取播放列表滚动条高度
-          const self = this
-          setTimeout(function(){
-            self.getPlayListScrollBarHeight()
-          }, 500)
+          this.$nextTick(() => {
+            this.getPlayListScrollBarHeight()
+            this.getLyricOffsetTop()
+          })
         }
       }
     },
 
     watch: {
-      secCounter: function (val) {
-        if (window.controlPointDown === 1) {
-          return
-        }
-        if (val === this.currentMusic.duration) { return }
-        this.getPlayedLength()
-      },
+      // secCounter: function (val) {
+      //   if (window.controlPointDown === 1) {
+      //     return
+      //   }
+      //   if (val === this.currentMusic.duration) { return }
+      //   this.getPlayedLength()
+      // },
 
       // 每次播放列表曲目有变化时重新获取滚动条高度  以及重置播放列表 top 值
       playListLength () {
@@ -198,12 +208,7 @@
 
       // 歌词序列更新后相应更新歌词列表 top 值
       currentLyricIndex (newVal, oldVal) {
-        if (newVal === 0) {
-          this.liricListOffsetTop = 0
-        } else {
-          const lastLyric = document.getElementById('lyric_list').childNodes[oldVal]
-          this.liricListOffsetTop -= lastLyric.offsetHeight
-        }
+        this.getLyricOffsetTop()
       },
 
       // 当播放列表 top 值改变时更新滚动条高度

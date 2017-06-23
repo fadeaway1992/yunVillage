@@ -76,6 +76,7 @@ const actions = {
     }
   },
 
+  // 静音开关
   Mute ({ state }) {
     state.player.muted = !state.player.muted
     if (state.player.muted) {
@@ -90,13 +91,13 @@ const actions = {
     switch (type) {
     case 'over':
       if (state.loopStyle === 'singleLoop') {
-        clearInterval(window.counter)
-        clearInterval(window.bufferCount)
+        // clearInterval(window.counter)
+        // clearInterval(window.bufferCount)
         console.log('已经取消计数')
         break
       } else if (state.loopStyle === 'listLoop') {
-        clearInterval(window.counter)
-        clearInterval(window.bufferCount)
+        // clearInterval(window.counter)
+        // clearInterval(window.bufferCount)
         console.log('已经取消计数')
         state.playedLength = '0px'
         await dispatch('changePlayIndex', 'next')
@@ -105,8 +106,8 @@ const actions = {
         break
       }
     case 'new':
-      clearInterval(window.counter)
-      clearInterval(window.bufferCount)
+      // clearInterval(window.counter)
+      // clearInterval(window.bufferCount)
       state.playedLength = '0px'
       state.player.src = getters.currentMusic.src
       console.log('切换音源成功')
@@ -115,8 +116,8 @@ const actions = {
       break
     }
     state.currentLyricIndex = 0   // 重置歌词序列
-    window.counter = undefined
-    window.bufferCount = undefined
+    // window.counter = undefined
+    // window.bufferCount = undefined
   },
 
   // 获取歌曲 url
@@ -263,6 +264,9 @@ const actions = {
 
   // 获取当前播放条长度
   getPlayedLength ({ state }) {
+    if (window.controlPointDown === 1) {
+      return
+    }
     state.playedLength = (processBarLength / state.player.duration * state.player.currentTime) + 'px'
   },
 
@@ -292,8 +296,8 @@ const actions = {
     }
     state.player.oncanplay = () => {
       console.log('oncanplay, 可以开始播放了')
-      if (!window.bufferCount) { dispatch('getBufferedPerSec') }
-      if (!window.counter) { dispatch('getCurrentTimePerSec') }
+      // if (!window.bufferCount) { dispatch('getBufferedPerSec') }
+      // if (!window.counter) { dispatch('getCurrentTimePerSec') }
       document.getElementById('loading').classList.remove('loading')
     }
     state.player.oncanplaythrough = () => {
