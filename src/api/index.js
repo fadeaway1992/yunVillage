@@ -38,7 +38,12 @@ export default{
       if (res.data.nolyric) {
         return '没有歌词'
       }
-      return res.data.lrc.lyric
+      try {
+        return res.data.lrc.lyric
+      } catch (e) {
+        console.log(e, '捕捉到了错误')
+        return '[9999:00:00] 无歌词'   // 当请求歌词出现了问题时统一返回一个固定的歌词字符串，防止因为请求不到歌词导致程序阻塞
+      }
     })
   }
 }
