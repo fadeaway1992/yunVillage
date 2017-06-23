@@ -200,7 +200,6 @@
         } else {
           const lastLyric = document.getElementById('lyric_list').childNodes[oldVal]
           this.liricListOffsetTop -= lastLyric.offsetHeight
-          console.log(this.liricListOffsetTop, '歌词偏移')
         }
       },
 

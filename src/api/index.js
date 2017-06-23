@@ -39,6 +39,7 @@ export default{
         return '没有歌词'
       }
       try {
+        console.log(res, '拿到了什么歌词？')
         return res.data.lrc.lyric
       } catch (e) {
         console.log(e, '捕捉到了错误')
