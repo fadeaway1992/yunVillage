@@ -28,7 +28,9 @@ const state = {
   // 保存当前音乐的歌词数组
   lyricArr: [{time:9999, text:'无歌词'}],
   // 保存当前歌词的序列
-  currentLyricIndex: 0
+  currentLyricIndex: 0,
+  // 标记是否静音
+  mute: false
 }
 
 const getters = {
@@ -71,6 +73,15 @@ const actions = {
         state.player.play()
         console.log('开始播放')
       }
+    }
+  },
+
+  Mute ({ state }) {
+    state.player.muted = !state.player.muted
+    if (state.player.muted) {
+      state.mute = true
+    } else {
+      state.mute = false
     }
   },
 

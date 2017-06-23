@@ -14,5 +14,6 @@ export const loopStyle = state => state.audioPlayer.loopStyle
 export const playListScrollBarHeight = state => state.audioPlayer.playListScrollBarHeight
 export const lyricArr = state => state.audioPlayer.lyricArr
 export const currentLyricIndex = state => state.audioPlayer.currentLyricIndex
+export const mute = state => state.audioPlayer.mute
 
 

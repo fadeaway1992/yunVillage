@@ -44,7 +44,7 @@
             <span class="btn" style="top:16.2px"></span>
           </div>
         </div>
-        <a href="javascript:;" hidefocus="true" data-action="volume" class="icon icn-vol"></a>
+        <a href="javascript:;" hidefocus="true" data-action="volume" class="icon icn-vol" :class="{'mute':mute}" @click="Mute"></a>
         <a href="javascript:;" hidefocus="true" data-action="mode" class="icon" :class="mode" title="循环" @click.prevent="changeLoopStyle('toggle')"></a>
         <span class="toggle-play-panel">
           <a href="javascript:;" title="播放列表" hidefocus="true" data-action="panel" class="icon icn-list"  @click.prevent="toggleLyricPanel">{{playList.length}}</a>
@@ -116,7 +116,8 @@
         'loopStyle',
         'playListScrollBarHeight',
         'lyricArr',
-        'currentLyricIndex'
+        'currentLyricIndex',
+        'mute'
       ]),
       mode () {
         return {
@@ -149,7 +150,9 @@
         // 从播放列表中删除歌曲
         'removeItemFromPlayList',
         // 获取播放列表滚动条的高度
-        'getPlayListScrollBarHeight'
+        'getPlayListScrollBarHeight',
+        // 静音
+        'Mute'
       ]),
 
       checkToNext: async function () {
@@ -629,6 +632,12 @@
           background-position: -2px -248px;
           &:hover{
             background-position: -31px -248px;
+          }
+        }
+        .mute {
+          background-position: -104px -69px;
+          &:hover {
+            background-position: -126px -69px;
           }
         }
         .icn-loop{
