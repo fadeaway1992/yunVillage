@@ -90,24 +90,12 @@ const actions = {
   checkout: async ({ state, getters, dispatch }, type) => {
     switch (type) {
     case 'over':
-      if (state.loopStyle === 'singleLoop') {
-        // clearInterval(window.counter)
-        // clearInterval(window.bufferCount)
-        console.log('已经取消计数')
-        break
-      } else if (state.loopStyle === 'listLoop') {
-        // clearInterval(window.counter)
-        // clearInterval(window.bufferCount)
-        console.log('已经取消计数')
-        state.playedLength = '0px'
-        await dispatch('changePlayIndex', 'next')
-        state.player.src = getters.currentMusic.src
-        dispatch('playOrPause')
-        break
-      }
+      state.playedLength = '0px'
+      await dispatch('changePlayIndex', 'next')
+      state.player.src = getters.currentMusic.src
+      dispatch('playOrPause')
+      break
     case 'new':
-      // clearInterval(window.counter)
-      // clearInterval(window.bufferCount)
       state.playedLength = '0px'
       state.player.src = getters.currentMusic.src
       console.log('切换音源成功')
@@ -116,8 +104,6 @@ const actions = {
       break
     }
     state.currentLyricIndex = 0   // 重置歌词序列
-    // window.counter = undefined
-    // window.bufferCount = undefined
   },
 
   // 获取歌曲 url
@@ -243,23 +229,16 @@ const actions = {
 
   // 每隔一秒获取当前播放时间。
   getCurrentTimePerSec ({ state, dispatch }) {
-    window.counter = setInterval(() => {
-      state.secCounter = formatTime(state.player.currentTime)
-      if (state.player.currentTime === state.player.duration) {
-        dispatch('checkout', 'over')
-      }
-    }, 1000)
+    state.secCounter = formatTime(state.player.currentTime)
   },
 
   // 每隔一秒获取缓冲长度
   getBufferedPerSec ({ state }) {
-    window.bufferCount = setInterval(() => {
-      let lastRange = state.player.buffered.length - 1
-      while (state.player.currentTime < state.player.buffered.start(lastRange)) {
-        lastRange--
-      }
-      state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(lastRange) + 'px'
-    }, 1000)
+    let lastRange = state.player.buffered.length - 1
+    while (state.player.currentTime < state.player.buffered.start(lastRange)) {
+      lastRange--
+    }
+    state.bufferedLength = processBarLength / state.player.duration * state.player.buffered.end(lastRange) + 'px'
   },
 
   // 获取当前播放条长度
@@ -296,8 +275,6 @@ const actions = {
     }
     state.player.oncanplay = () => {
       console.log('oncanplay, 可以开始播放了')
-      // if (!window.bufferCount) { dispatch('getBufferedPerSec') }
-      // if (!window.counter) { dispatch('getCurrentTimePerSec') }
       document.getElementById('loading').classList.remove('loading')
     }
     state.player.oncanplaythrough = () => {
@@ -311,13 +288,19 @@ const actions = {
       console.log('onplaying, 缓冲结束，开始播放')
       document.getElementById('loading').classList.remove('loading')
     }
+
+    // audio 内置的 ontimeupdate 钩子函数，播放时间更新的时候执行
     state.player.ontimeupdate = () => {
+      dispatch('getBufferedPerSec')   //  获取缓冲条长度
+      dispatch('getCurrentTimePerSec')   //  显示当前播放时间
+      dispatch('getPlayedLength')   //  获取播放条长度
       // 更新歌词
       if(!state.lyricArr[state.currentLyricIndex + 1]) return
       if (state.player.currentTime > state.lyricArr[state.currentLyricIndex + 1].time) {
         state.currentLyricIndex++ 
       }
-    },
+    }
+
     state.player.onseeked = () => {
       for (let i = 0; i < state.lyricArr.length; i++) {
         if (state.player.currentTime >= state.lyricArr[i].time) {
@@ -326,6 +309,11 @@ const actions = {
           }
         }
       }
+    }
+    
+    state.player.onended = () => {  // player.loop === true 的时候不会触发这个函数
+      console.log('这首歌播放结束了')
+      dispatch('checkout', 'over')  
     }
   },
 
